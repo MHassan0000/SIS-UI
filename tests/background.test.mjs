@@ -27,7 +27,7 @@ test('worker requires consent, deduplicates, resets on login, retries and respec
     if (String(url).startsWith('https://lhr-sis.comsats.edu.pk/')) {
       reads++;
       assert.equal(options.credentials, 'include');
-      const response = new Response('<html><body><form id="synopsisForm"><input name="uid" value="TEST-001"><input hidden type="text" name="name" value="Sample Student"></form></body></html>', {headers:{'content-type':'text/html'}});
+      const response = new Response('<html><body><form id="synopsisForm"><input name="uid" value="TEST-001"><input hidden type="password" name="pwd" value="Sample Student"></form></body></html>', {headers:{'content-type':'text/html'}});
       Object.defineProperty(response, 'url', {value:'https://lhr-sis.comsats.edu.pk/RESULTCARD'});
       return response;
     }

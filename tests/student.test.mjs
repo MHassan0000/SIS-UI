@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { extractStudent, saveStudent } from '../extension/student.js';
-const form = (roll = ' FA24-BCS-001 ', name = 'Sample &#38; Student') => `<form id="synopsisForm"><input value="${roll}" name="uid"><input hidden type="text" name="name" value="${name}"><input name="email" value="ignored@example.test"></form>`;
+const form = (roll = ' FA24-BCS-001 ', name = 'Sample &#38; Student') => `<form id="synopsisForm"><input value="${roll}" name="uid"><input hidden type="password" name="pwd" value="${name}"><input name="email" value="ignored@example.test"></form>`;
 test('extracts only synopsisForm fields, trims whitespace and decodes entities', () => {
   const html = `<input name="uid" value="wrong"><script>"${form('fake')}"</script><!-- ${form('comment')} -->${form()}`;
   assert.deepEqual(extractStudent(html), {rollnumber:'FA24-BCS-001',email:'Sample & Student'});
