@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Result Card Cloud Backup</title><link rel="stylesheet" href="popup.css"></head>
+<body><main>
+<p class="eyebrow">COMSATS LAHORE · INDEPENDENT PROJECT</p>
+<h1>Your result card.<br>A cloud backup.</h1>
+<p>After you sign into the university portal and open RESULTCARD, this extension can save its complete HTML as a text file in the project operator’s Supabase cloud storage.</p>
+<div class="notice"><strong>Before you enable uploads</strong><p>The file includes everything returned in that page, including your identity, grades, academic records, and any hidden HTML fields. The project operator can access it and plans to use it for report-card generation.</p><p>Uploads run automatically once per detected portal login. Your password and browser cookies are not sent to Supabase. No separate cloud login is needed.</p></div>
+<label id="consent-row"><input id="consent" type="checkbox"> I agree to upload my complete result-card HTML to the project operator’s cloud storage.</label>
+<button id="toggle" disabled>Enable automatic uploads</button>
+<p id="status" role="status" aria-live="polite">Loading…</p>
+<p class="small">You can disable future uploads here. Disabling or uninstalling does not delete files already uploaded. An upload already sent may finish.</p>
+<a href="privacy.html" target="_blank" rel="noopener">Data handling details</a>
+</main><script type="module" src="popup.js"></script></body></html>
