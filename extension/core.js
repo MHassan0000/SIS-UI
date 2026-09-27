@@ -10,7 +10,6 @@ export function isLoginPost(details) {
 export function validateHtml(html, finalUrl, contentType) {
   if (!isResultCard(finalUrl)) throw new Error('Portal redirected away from RESULTCARD. Log in again.');
   if (!/text\/html/i.test(contentType) || !/<html[\s>]/i.test(html) || !/<\/html>/i.test(html)) throw new Error('Portal did not return a complete HTML document.');
-  if (/<input\b[^>]*\btype\s*=\s*["']?password\b/i.test(html)) throw new Error('Portal returned a login form.');
   if (new TextEncoder().encode(html).length > MAX_BYTES) throw new Error('Result card exceeds the 2 MB upload limit.');
 }
 export function headers(key) {
