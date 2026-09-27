@@ -1,5 +1,6 @@
 import { config } from './config.js';
 import { PORTAL, isResultCard, isLoginPost, validateHtml, upload } from './core.js';
+import { extractStudent, saveStudent } from './student.js';
 
 // Serialize work, including opt-out and login transitions, inside a worker lifetime.
 let queue = Promise.resolve();
@@ -39,21 +40,28 @@ async function flush() {
   if (!pending) return;
   await status('uploading', 'Uploading your result card…');
   try {
-    await upload(config, pending.path, pending.html);
+    if (!pending.fileUploaded) {
+      await upload(config, pending.path, pending.html);
+      pending.fileUploaded = true;
+      await chrome.storage.session.set({ pending });
+    }
+    if (!await enabled()) return;
+    await status('uploading', 'Saving student details to ResultCard…');
+    await saveStudent(config, extractStudent(pending.html));
     const current = await session();
     if (current.id === pending.sessionId) await chrome.storage.session.set({ loginSession: { ...current, done: true } });
     await chrome.storage.session.remove('pending');
     await chrome.alarms.clear('retry-upload');
-    await status('uploaded', 'Result card saved to cloud storage.', { uploadedAt: new Date().toISOString(), path: pending.path });
+    await status('uploaded', 'HTML and student details saved to Supabase.', { uploadedAt: new Date().toISOString(), path: pending.path });
   } catch (error) {
     pending.attempts++;
     if (pending.attempts < 4) {
       await chrome.storage.session.set({ pending });
       await chrome.alarms.create('retry-upload', { delayInMinutes: pending.attempts });
-      await status('error', `${error.message} Retrying automatically.`);
+      await status('error', `${pending.fileUploaded ? 'HTML uploaded; student details still pending. ' : ''}${error.message} Retrying automatically.`);
     } else {
       await chrome.storage.session.remove('pending');
-      await status('error', `${error.message} Open RESULTCARD again to retry.`);
+      await status('error', `${pending.fileUploaded ? 'HTML uploaded; student details were not saved. ' : ''}${error.message} Open RESULTCARD again to retry.`);
     }
   }
 }

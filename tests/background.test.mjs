@@ -22,14 +22,19 @@ test('worker requires consent, deduplicates, resets on login, retries and respec
     tabs: { async query() { return []; }, async create() {} }
   };
   const originalFetch = globalThis.fetch;
-  let reads = 0, writes = 0, fail = false;
+  let reads = 0, writes = 0, studentWrites = 0, fail = false, failStudent = false;
   globalThis.fetch = async (url, options) => {
     if (String(url).startsWith('https://lhr-sis.comsats.edu.pk/')) {
       reads++;
       assert.equal(options.credentials, 'include');
-      const response = new Response('<html><body>Synthetic card</body></html>', {headers:{'content-type':'text/html'}});
+      const response = new Response('<html><body><form id="synopsisForm"><input name="rollno" value="TEST-001"><input name="email" value="test@example.test"></form></body></html>', {headers:{'content-type':'text/html'}});
       Object.defineProperty(response, 'url', {value:'https://lhr-sis.comsats.edu.pk/RESULTCARD'});
       return response;
+    }
+    if (String(url).includes('/rest/v1/ResultCard')) {
+      studentWrites++;
+      assert.deepEqual(JSON.parse(options.body), {rollnumber:'TEST-001',email:'test@example.test'});
+      return new Response('{}', {status:failStudent ? 503 : 201});
     }
     writes++;
     assert.equal(options.credentials, 'omit');
@@ -44,6 +49,7 @@ test('worker requires consent, deduplicates, resets on login, retries and respec
     visit(); await settle(); assert.equal(reads,0); assert.equal(writes,0);
     await toggle(true);
     visit(); visit(); await settle(); assert.equal(reads,1); assert.equal(writes,1);
+    assert.equal(studentWrites,1);
     assert.equal((await session.get('pending')).pending, undefined);
     assert.equal((await local.get('status')).status.state,'uploaded');
     login(); visit(); await settle(); assert.equal(writes,2);
@@ -51,6 +57,13 @@ test('worker requires consent, deduplicates, resets on login, retries and respec
     assert.equal((await local.get('status')).status.state,'error');
     assert.ok((await session.get('pending')).pending);
     fail = false; listeners.alarm({name:'retry-upload'}); await settle();
+    assert.equal((await local.get('status')).status.state,'uploaded');
+    failStudent = true; login(); visit(); await settle();
+    assert.equal((await local.get('status')).status.state,'error');
+    assert.ok((await session.get('pending')).pending.fileUploaded);
+    const uploadedFiles = writes;
+    failStudent = false; listeners.alarm({name:'retry-upload'}); await settle();
+    assert.equal(writes, uploadedFiles, 'a table retry must not upload the HTML again');
     assert.equal((await local.get('status')).status.state,'uploaded');
     await toggle(false); const previous = writes;
     login(); visit(); await settle(); assert.equal(writes,previous);

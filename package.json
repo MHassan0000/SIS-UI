@@ -1,11 +1,17 @@
 {
   "name": "resultcard-cloud-backup",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
     "check:storage": "node scripts/check-storage.mjs"
+  },
+  "dependencies": {
+    "parse5": "^8.0.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }

@@ -1,11 +1,13 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { loadConfig } from './env.mjs';
+import { build } from 'esbuild';
 const config = loadConfig();
 mkdirSync(new URL('../extension/', import.meta.url), { recursive: true });
 mkdirSync(new URL('../supabase/', import.meta.url), { recursive: true });
+await build({ stdin: { contents: "export { parse } from 'parse5';", resolveDir: process.cwd() }, bundle: true, format: 'esm', platform: 'browser', outfile: 'extension/vendor/parse5.js' });
 writeFileSync(new URL('../extension/config.js', import.meta.url), `export const config = ${JSON.stringify(config)};\n`);
 const manifest = {
-  manifest_version: 3, name: 'Result Card Cloud Backup', version: '1.0.0',
+  manifest_version: 3, name: 'Result Card Cloud Backup', version: '1.1.0',
   description: 'With your permission, back up your COMSATS Lahore result-card HTML to private cloud storage after portal login.',
   minimum_chrome_version: '120',
   permissions: ['storage', 'webRequest', 'alarms'],

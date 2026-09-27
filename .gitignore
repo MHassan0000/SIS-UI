@@ -1,8 +1,10 @@
 .env*
 !.env.example
 RESULTCARD*
+!supabase/resultcard.sql
 extension/config.js
 extension/manifest.json
 supabase/setup.generated.sql
 dist/
 node_modules/
+extension/vendor/
