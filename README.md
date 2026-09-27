@@ -18,7 +18,7 @@ For an existing installation, rebuild and click **Reload** in `chrome://extensio
 ## Behavior and limits
 
 - Capture is once per detected login, shared across tabs. A top-level POST to the portal root starts a new capture session, matching the observed portal login. A browser restart also begins a fresh session. An installation ID is not a student ID.
-- Student details come only from `form#synopsisForm input[name=rollno]` and `input[name=email]`. Missing or ambiguous values cause a visible error instead of inserting blank fields. Identical roll number/email pairs are deduplicated; a changed email creates another pair without overwriting the old row. No table SELECT or UPDATE access is needed.
+- Student details come from the first `form#synopsisForm` inputs named `rollno` and `email`. The extension trims and inserts their values directly; validation is left to Supabase. Identical roll number/email pairs are deduplicated; a changed email creates another pair without overwriting the old row. No table SELECT or UPDATE access is needed.
 - Success is shown only after both file and table writes succeed. Table retries reuse the uploaded file. These writes are not a database transaction: a failed table insert can leave a successfully uploaded file in the bucket.
 - Visiting RESULTCARD again in the same session does not upload again after success. Each new login creates an immutable file; older files remain. The response is a fresh GET, not the byte-identical original navigation response.
 - Failed uploads retry up to three times using alarms. Pending HTML stays in extension-only session storage, not persistent disk storage. It is discarded on restart, a new login, opt-out, or exhausted retries. An in-flight upload may complete after opt-out.

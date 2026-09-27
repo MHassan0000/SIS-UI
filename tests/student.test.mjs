@@ -6,8 +6,8 @@ test('extracts only synopsisForm fields, trims whitespace and decodes entities',
   const html = `<input name="rollno" value="wrong"><script>"${form('fake')}"</script><!-- ${form('comment')} -->${form()}`;
   assert.deepEqual(extractStudent(html), {rollnumber:'FA24-BCS-001',email:'student@example.test'});
 });
-test('rejects missing, ambiguous or invalid student values', () => {
-  for (const html of ['', form()+form(), form('', 'x@example.test'), form('FA24-001','invalid'), '<form id="synopsisForm"><input name="rollno" value="A"></form>']) assert.throws(() => extractStudent(html));
+test('passes form values through without client-side format validation', () => {
+  assert.deepEqual(extractStudent(form('roll number', 'unvalidated')), {rollnumber:'roll number',email:'unvalidated'});
 });
 test('sends exactly two fields using an idempotent insert with no read access', async () => {
   await saveStudent({url:'https://example.supabase.co',key:'sb_publishable_test'}, {rollnumber:'TEST-001',email:'test@example.test',ignored:'not sent'}, async (url, options) => {
@@ -20,11 +20,11 @@ test('sends exactly two fields using an idempotent insert with no read access', 
   });
 });
 test('database errors omit row values', async () => {
-  await assert.rejects(saveStudent({url:'https://example.supabase.co',key:'sb_publishable_test'}, {}, async () => new Response(JSON.stringify({code:'42501',details:'private student values'}),{status:403})), error => error.message.includes('42501') && !error.message.includes('private student'));
+  await assert.rejects(saveStudent({url:'https://example.supabase.co',key:'sb_publishable_test'}, {}, async () => new Response(JSON.stringify({code:'42501',details:'private student values'}),{status:403})), error => error.message.includes('HTTP 403') && !error.message.includes('private student'));
 });
 test('accepts only the named pair-index conflict as a successful replay', async () => {
   const config = {url:'https://example.supabase.co',key:'sb_publishable_test'};
   const conflict = name => async () => new Response(JSON.stringify({code:'23505',message:`duplicate key value violates unique constraint "${name}"`,details:'private values'}), {status:409});
   await saveStudent(config, {}, conflict('resultcard_rollnumber_email_unique'));
-  await assert.rejects(saveStudent(config, {}, conflict('unrelated_primary_key')), /23505/);
+  await assert.rejects(saveStudent(config, {}, conflict('unrelated_primary_key')), /HTTP 409/);
 });
