@@ -8,3 +8,4 @@ supabase/setup.generated.sql
 dist/
 node_modules/
 extension/vendor/
+.local/

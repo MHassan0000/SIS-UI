@@ -1,12 +1,14 @@
 {
   "name": "resultcard-cloud-backup",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check:storage": "node scripts/check-storage.mjs"
+    "check:storage": "node scripts/check-storage.mjs",
+    "package": "npm run build && python scripts/package.py",
+    "assets": "python scripts/store-assets.py"
   },
   "dependencies": {
     "parse5": "^8.0.1"

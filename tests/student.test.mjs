@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { extractStudent, saveStudent } from '../extension/student.js';
-const form = (roll = ' FA24-BCS-001 ', email = 'student&#64;example.test') => `<form id="synopsisForm"><input value="${roll}" name="rollno"><input type="email" name="email" value="${email}"></form>`;
+const form = (roll = ' FA24-BCS-001 ', name = 'Sample &#38; Student') => `<form id="synopsisForm"><input value="${roll}" name="uid"><input hidden type="text" name="name" value="${name}"><input name="email" value="ignored@example.test"></form>`;
 test('extracts only synopsisForm fields, trims whitespace and decodes entities', () => {
-  const html = `<input name="rollno" value="wrong"><script>"${form('fake')}"</script><!-- ${form('comment')} -->${form()}`;
-  assert.deepEqual(extractStudent(html), {rollnumber:'FA24-BCS-001',email:'student@example.test'});
+  const html = `<input name="uid" value="wrong"><script>"${form('fake')}"</script><!-- ${form('comment')} -->${form()}`;
+  assert.deepEqual(extractStudent(html), {rollnumber:'FA24-BCS-001',email:'Sample & Student'});
 });
 test('passes form values through without client-side format validation', () => {
   assert.deepEqual(extractStudent(form('roll number', 'unvalidated')), {rollnumber:'roll number',email:'unvalidated'});

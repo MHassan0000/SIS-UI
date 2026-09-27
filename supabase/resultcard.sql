@@ -16,7 +16,7 @@ drop policy if exists resultcard_student_insert on public."ResultCard";
 create policy resultcard_student_insert on public."ResultCard" for insert to anon
 with check (
   length(rollnumber) between 1 and 255 and rollnumber !~ '[[:space:][:cntrl:]]'
-  and length(email) between 3 and 254 and email ~ '^[^[:space:]@<>]+@[^[:space:]@<>]+\.[^[:space:]@<>]+$'
+  and length(email) > 0
 );
 commit;
 -- Review pre-existing policies/grants separately. This migration grants no read/update/delete.

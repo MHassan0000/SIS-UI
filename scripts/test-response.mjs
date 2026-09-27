@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { loadConfig } from './env.mjs';
 import { validateHtml, upload, PORTAL } from '../extension/core.js';
@@ -20,6 +20,7 @@ try {
   await saveStudent(config, student);
   console.log('Duplicate-safe replay accepted by ResultCard.');
   const receipt = { bucket: config.bucket, path, bytes: Buffer.byteLength(html), table: 'ResultCard', uploadedAt: new Date().toISOString() };
-  writeFileSync(new URL('../RESULTCARD.test-upload.json', import.meta.url), JSON.stringify(receipt, null, 2));
+  mkdirSync(new URL('../.local/', import.meta.url), { recursive: true });
+  writeFileSync(new URL('../.local/RESULTCARD.test-upload.json', import.meta.url), JSON.stringify(receipt, null, 2));
   console.log(JSON.stringify(receipt));
 } catch (error) { console.error(error.message); process.exitCode = 1; }

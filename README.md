@@ -2,7 +2,21 @@
 
 Chrome Manifest V3 extension for COMSATS Lahore. After one-time opt-in, it observes the first successful RESULTCARD document navigation in each detected portal login and fetches a fresh authenticated copy. It uploads the complete HTML as `text/plain` to Supabase Storage and saves `synopsisForm` inputs `rollno` and `email` to `public."ResultCard"` columns `rollnumber` and `email`. No debugger, portal password access, separate Supabase login screen, or report generation.
 
-## Setup
+## Install in your Chrome now
+
+No registration, fee, or Web Store upload is needed for your own browser.
+
+1. Open `chrome://extensions` in Chrome.
+2. Turn on **Developer mode** in the top-right corner.
+3. Click **Load unpacked**.
+4. Choose **`C:\vscode\extension\extension`** — the inner folder containing `manifest.json`, not the project root or ZIP.
+5. Open the extension, tick its consent checkbox, and click **Enable automatic uploads**.
+6. Log in manually at `https://lhr-sis.comsats.edu.pk`, solve the CAPTCHA, and open RESULTCARD.
+7. The extension reports **HTML and student details saved to Supabase** after both writes complete. Your bucket receives a `.txt` file; `ResultCard` receives the roll number/email pair.
+
+If it is already installed, click **Reload** on its card at `chrome://extensions`. Keep the extension folder in place; Chrome loads the files from that location. The local sample HTML is not needed. Portal monitoring is limited to the exact Lahore SIS host; the only other host permission is your Supabase upload destination.
+
+## Build and package
 
 1. Copy `.env.example` to `.env.local` and set `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and `SUPABASE_BUCKET_NAME`. Local credentials, captured report cards, upload receipts, and generated configuration are excluded from Git.
 2. Run `npm ci`, `npm run build`, and `npm test`. The build bundles the HTML parser locally; no remotely hosted code is used.
@@ -11,9 +25,9 @@ Chrome Manifest V3 extension for COMSATS Lahore. After one-time opt-in, it obser
 5. Open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select the `extension` directory. Agree to the data disclosure once. Log into the portal manually and open RESULTCARD.
 6. The popup reports success or errors. Files appear at `captures/<random-installation-id>/<random-login-id>.txt` in the configured bucket.
 
-For an existing installation, rebuild and click **Reload** in `chrome://extensions` after applying the table migration. To validate the local sample without showing or uploading its values, run `node scripts/save-student.mjs --validate-only`. To insert its roll number/email into the table, run `node scripts/save-student.mjs`.
+Run `npm run package` to rebuild `dist/resultcard-cloud-backup.zip`. The ZIP contains only the extension runtime, icons, and bundled parser notices. To test both uploads manually with the optional private sample, run `node scripts/test-response.mjs .local/RESULTCARD.html`. This sends real sample data to Supabase; it is not part of normal installation.
 
-`RESULTCARD.html` is an optional development sample, never an extension input. You can delete it without affecting the extension. The installed extension fetches fresh portal HTML on each capture and extracts student fields from that same response. The scripts that read local HTML are manual diagnostics and are not packaged in the extension.
+`.local/` contains optional private development samples and upload receipts, excluded from Git and the ZIP. You can delete those files without affecting the extension. The installed extension fetches fresh portal HTML on each capture and extracts student fields from that same response. The scripts that read local HTML are manual diagnostics and are not packaged in the extension.
 
 ## Behavior and limits
 
@@ -28,6 +42,6 @@ For an existing installation, rebuild and click **Reload** in `chrome://extensio
 
 ## Chrome Web Store release
 
-The implementation is a development build, not a completed store submission. Provide operator identity, privacy/deletion contact, retention period and hosted privacy policy; make the listing and dashboard disclosures match the full HTML upload. Keep the opt-in. Complete live Chrome testing and server-side abuse controls before public distribution. Package only the contents of `extension/`, never `.env.local`, the saved RESULTCARD, tests or the project root.
+Local installation and publishing are different. The ZIP is prepared for upload, but a public listing still needs operator identity, privacy/deletion contact, retention period, a hosted privacy policy and store screenshots. See [the publishing guide](docs/PUBLISHING.md). Keep the opt-in. Complete live Chrome testing and server-side abuse controls before public distribution. Never upload `.env.local`, samples, or the whole project folder.
 
 For manual verification: decline consent (no upload), consent and visit RESULTCARD (one upload), refresh (no second upload), log out/in (one new upload), disable (no later upload), temporarily block Supabase (visible error and bounded retry), close/reopen Chrome (pending HTML cleared). Verify bucket public URLs and anonymous listing cannot retrieve records. The synthetic automated tests do not replace these checks.

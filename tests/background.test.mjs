@@ -27,13 +27,13 @@ test('worker requires consent, deduplicates, resets on login, retries and respec
     if (String(url).startsWith('https://lhr-sis.comsats.edu.pk/')) {
       reads++;
       assert.equal(options.credentials, 'include');
-      const response = new Response('<html><body><form id="synopsisForm"><input name="rollno" value="TEST-001"><input name="email" value="test@example.test"></form></body></html>', {headers:{'content-type':'text/html'}});
+      const response = new Response('<html><body><form id="synopsisForm"><input name="uid" value="TEST-001"><input hidden type="text" name="name" value="Sample Student"></form></body></html>', {headers:{'content-type':'text/html'}});
       Object.defineProperty(response, 'url', {value:'https://lhr-sis.comsats.edu.pk/RESULTCARD'});
       return response;
     }
     if (String(url).includes('/rest/v1/ResultCard')) {
       studentWrites++;
-      assert.deepEqual(JSON.parse(options.body), {rollnumber:'TEST-001',email:'test@example.test'});
+      assert.deepEqual(JSON.parse(options.body), {rollnumber:'TEST-001',email:'Sample Student'});
       return new Response('{}', {status:failStudent ? 503 : 201});
     }
     writes++;

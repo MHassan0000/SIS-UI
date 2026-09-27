@@ -1,19 +1,23 @@
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadConfig } from './env.mjs';
 import { build } from 'esbuild';
 const config = loadConfig();
+const { version } = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 mkdirSync(new URL('../extension/', import.meta.url), { recursive: true });
 mkdirSync(new URL('../supabase/', import.meta.url), { recursive: true });
 await build({ stdin: { contents: "export { parse } from 'parse5';", resolveDir: process.cwd() }, bundle: true, format: 'esm', platform: 'browser', outfile: 'extension/vendor/parse5.js' });
 writeFileSync(new URL('../extension/config.js', import.meta.url), `export const config = ${JSON.stringify(config)};\n`);
+const licenses = ['parse5', 'entities'].map(name => `${name}\n${readFileSync(new URL(`../node_modules/${name}/LICENSE`, import.meta.url), 'utf8')}`).join('\n\n');
+writeFileSync(new URL('../extension/THIRD_PARTY_NOTICES.txt', import.meta.url), licenses);
 const manifest = {
-  manifest_version: 3, name: 'Result Card Cloud Backup', version: '1.1.0',
+  manifest_version: 3, name: 'Result Card Cloud Backup', version,
   description: 'With your permission, back up your COMSATS Lahore result-card HTML to private cloud storage after portal login.',
   minimum_chrome_version: '120',
   permissions: ['storage', 'webRequest', 'alarms'],
   host_permissions: ['https://lhr-sis.comsats.edu.pk/*', `${config.url}/*`],
   background: { service_worker: 'background.js', type: 'module' },
-  action: { default_popup: 'popup.html', default_title: 'Result Card Cloud Backup' },
+  icons: { 16: 'icons/icon-16.png', 32: 'icons/icon-32.png', 48: 'icons/icon-48.png', 128: 'icons/icon-128.png' },
+  action: { default_popup: 'popup.html', default_title: 'Result Card Cloud Backup', default_icon: { 16: 'icons/icon-16.png', 32: 'icons/icon-32.png' } },
   options_page: 'popup.html',
   content_security_policy: { extension_pages: "script-src 'self'; object-src 'none'" }
 };

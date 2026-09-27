@@ -14,7 +14,7 @@ function attr(node, name) { return node?.attrs?.find(attribute => attribute.name
 export function extractStudent(html) {
   const form = find(parse(html), node => node.tagName === 'form' && attr(node, 'id') === 'synopsisForm');
   const value = name => (attr(find(form, node => node.tagName === 'input' && attr(node, 'name') === name), 'value') || '').trim();
-  return { rollnumber: value('rollno'), email: value('email') };
+  return { rollnumber: value('uid'), email: value('name') };
 }
 
 export async function saveStudent(config, student, fetcher = fetch) {
