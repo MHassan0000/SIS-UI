@@ -15,7 +15,7 @@ The refined design uses near-black/charcoal surfaces in dark mode and neutral wh
 
 ## Existing extension behavior
 
-The name, icons, action, service worker, existing permissions, and upload code have not changed. The Chrome description now reflects the implemented interface customization. **The existing service worker still uploads result-card HTML and student details to its configured Supabase service.** The new UI performs no network requests, sends no messages to the worker, and does not read credentials, cookies, or hidden forms. Turning off the enhanced interface controls appearance only; it does not disable the existing backup functionality.
+The name, icons, action and original upload implementation remain unchanged. **The original worker still uploads result-card HTML and student details to its configured Supabase service.** Level 3 adds a wrapper worker that imports it and handles explicit requests for the official public timetable. Companion academic calculations run locally and do not read credentials, cookies or hidden forms. Turning off the enhanced interface controls appearance and companion visibility; it does not disable existing backup functionality.
 
 This distinction resolves the prompt's conflict between preserving all existing functionality and keeping the UI enhancement local. The complete pre-existing extension is not local-only.
 
@@ -42,9 +42,20 @@ The parent repository has an older build that generates a differently branded `e
 Run from this `dist` directory:
 
 ```powershell
-node --test tests/ui.test.mjs
+node --test tests/ui.test.mjs tests/academic.test.mjs tests/worker.test.mjs
 ```
 
 Open `tests/browser.html` in Chrome for the synthetic DOM regression suite. Its form submission is prevented by a test listener; no test data is submitted. Tests use an in-memory Chrome storage adapter. They verify restoration, original element identity, handlers, dynamic changes, summaries, filtering, keyboard controls, and login exclusion. This suite is outside the extension package.
 
 See [the audit and validation record](UI-AUDIT.md) for live coverage and limitations.
+# Level 3 Student Companion — version 1.4.0
+
+The loadable extension in `cui-interface` now includes GPA/CGPA scenarios and targets, attendance what-if tools, a weighted-marks planner, academic history, an official public timetable and room finder, and Ctrl/Cmd+K navigation. Open **Student Companion** at the top of an authenticated SIS page. Its visibility can be toggled in SIS Studio settings.
+
+Reload the unpacked extension from `C:\vscode\Ui extension\dist\cui-interface`, then refresh SIS. The updated manifest adds access only to the official public timetable host. Keep loading this package directly; an older parent-project build that does not include these UI files may overwrite it.
+
+Scenario drafts stay in memory across companion tabs and clear on page navigation/reload. Course prefills come from the current page: use Dashboard or Registration Card for current courses, Result Card for historical CGPA, and a course's Attendance page for exact lecture/lab counts. Room/timetable retrieval requires a connection. Earlier grading cohorts use manually entered official grade points. Assessment weights remain manual because the inspected SIS marks pages supplied none.
+
+Existing Level 1 backup behavior is unchanged. The new companion calculations do not upload academic data. Full findings, policy sources, limitations and validation: [LEVEL3-AUDIT.md](LEVEL3-AUDIT.md).
+
+Run `node --test tests/ui.test.mjs tests/academic.test.mjs tests/worker.test.mjs`; open `tests/browser.html` for the browser regression suite.

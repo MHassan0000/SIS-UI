@@ -25,6 +25,7 @@
         <label class="row" for="enabled"><span>Enhanced interface</span><input id="enabled" type="checkbox"></label>
         <label class="row" for="theme"><span>Appearance</span><select id="theme"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
         <label class="row" for="compact"><span>Compact tables</span><input id="compact" type="checkbox"></label>
+        <label class="row" for="companion"><span>Student Companion</span><input id="companion" type="checkbox"></label>
         <p>Turn off the enhanced interface to restore the original SIS appearance instantly.</p>
         <p id="feedback" role="status"></p>
       </section>
@@ -42,7 +43,7 @@
     $('.close').addEventListener('click', () => open(false));
     shadow.addEventListener('keydown', event => { if (event.key === 'Escape' && !panel.hidden) { event.stopPropagation(); open(false); } });
     shadow.addEventListener('change', () => {
-      state = { enabled: $('#enabled').checked, theme: $('#theme').value, compact: $('#compact').checked };
+      state = { enabled: $('#enabled').checked, theme: $('#theme').value, compact: $('#compact').checked, companion: $('#companion').checked };
       onChange(state);
     });
     document.body.append(host);
@@ -54,6 +55,7 @@
         $('#enabled').checked = value.enabled;
         $('#theme').value = value.theme;
         $('#compact').checked = value.compact;
+        $('#companion').checked = value.companion;
         launch.title = value.enabled ? 'Appearance settings' : 'Appearance settings — enhanced interface is off';
       },
       feedback(message) { $('#feedback').textContent = message; },

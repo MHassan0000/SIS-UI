@@ -46,7 +46,10 @@
       if (!semester || !grid) return [];
       const rows = [...grid.rows].slice(1).filter(row => row.cells.length === 6);
       // Zero values in an ungraded semester are placeholders, not a published CGPA.
-      const published = rows.length > 0 && rows.every(row => /^[A-F][+-]?$|^P$/i.test(text(row.cells[4])));
+      // Pending non-credit requirements must not hide a published academic CGPA.
+      const creditRows = rows.filter(row => number(text(row.cells[2])) > 0);
+      const published = creditRows.length > 0 && rows.every(row => number(text(row.cells[2])) !== null) &&
+        creditRows.every(row => /^[A-F][+-]?$|^P$/i.test(text(row.cells[4])));
       const cgpa = number(rawCGPA);
       return [{ semester, count: rows.length, published,
         cgpa: published && cgpa !== null && cgpa <= 4 ? cgpa : null }];

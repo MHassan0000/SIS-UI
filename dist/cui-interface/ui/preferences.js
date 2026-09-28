@@ -2,12 +2,13 @@
   'use strict';
   const app = globalThis.__sisStudioUI;
   const key = 'sisStudio.ui.v1';
-  const defaults = Object.freeze({ enabled: true, theme: 'system', compact: false });
+  const defaults = Object.freeze({ enabled: true, theme: 'system', compact: false, companion: true });
   function normalize(value) {
     return {
       enabled: typeof value?.enabled === 'boolean' ? value.enabled : defaults.enabled,
       theme: ['light', 'dark', 'system'].includes(value?.theme) ? value.theme : defaults.theme,
       compact: typeof value?.compact === 'boolean' ? value.compact : defaults.compact,
+      companion: typeof value?.companion === 'boolean' ? value.companion : defaults.companion,
     };
   }
   app.preferences = {

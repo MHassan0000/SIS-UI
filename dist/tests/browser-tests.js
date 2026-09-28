@@ -7,6 +7,7 @@
   const app = globalThis.__sisStudioUI;
   const test = globalThis.studioTest;
   const control = document.querySelector('#sis-studio-controls').shadowRoot;
+  await globalThis.runCompanionTests(assert);
   assert(document.querySelectorAll('.studio-stat').length === 4, 'Real DOM creates four data-backed dashboard cards');
   assert([...document.querySelectorAll('.studio-stat-value')].map(e => e.textContent).join('|') === 'Fall 2026|2|7|60%', 'Summary arithmetic and lowest session percentage');
   assert(document.querySelectorAll('[data-studio-session]').length === 3, 'Separate lecture and lab labels');
@@ -59,6 +60,9 @@
   fixture.innerHTML = block('Spring 2026', 'A', '3.25') + block('Fall 2026', '-', '0.00');
   const parsed = app.parsers.results(fixture);
   assert(parsed[0].cgpa === 3.25 && parsed[1].cgpa === null, 'Ungraded zero CGPA is excluded');
+  fixture.innerHTML = block('Spring 2026', 'B', '3.25');
+  fixture.querySelector('.sis-result-grid').insertAdjacentHTML('beforeend', '<tr><td>NC</td><td>Non-credit requirement</td><td>0</td><td>-</td><td>-</td><td>-</td></tr>');
+  assert(app.parsers.results(fixture)[0].cgpa === 3.25, 'Pending non-credit requirements do not hide the latest published CGPA');
   fixture.innerHTML = block('Fall 2026', 'F', '0.00');
   assert(app.parsers.results(fixture)[0].cgpa === 0, 'Published zero CGPA is retained when grades are present');
   fixture.innerHTML = '<div class="sis-dash-att"><div id="bar_3-Class" class="only_class_attendance"><div class="progress-bar" aria-valuemax="1">0%</div></div></div>';

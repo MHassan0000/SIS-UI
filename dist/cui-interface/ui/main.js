@@ -5,6 +5,7 @@
   app.started = true;
   const media = matchMedia('(prefers-color-scheme: dark)');
   const features = app.createFeatures();
+  const companion = app.createCompanion?.();
   let preferences, controls, observer, shellObserver, content, timer, unsubscribe, stopped = false;
   let revision = 0;
   const theme = () => preferences.theme === 'system' ? (media.matches ? 'dark' : 'light') : preferences.theme;
@@ -23,6 +24,7 @@
     features.clear();
     const root = document.querySelector(app.selectors.content);
     if (root) features.apply(root);
+    if (root && preferences.companion) companion?.sync(root);
     const restored = root?.querySelector('.studio-search');
     if (restored && query) {
       restored.value = query;
@@ -40,6 +42,7 @@
     observer.disconnect();
     clearTimeout(timer);
     if (!preferences.enabled) features.clear();
+    if (!preferences.enabled || !preferences.companion) companion?.clear();
     document.body.classList.toggle('sis-studio-enabled', preferences.enabled);
     document.body.classList.toggle('sis-studio-compact', preferences.enabled && preferences.compact);
     if (preferences.enabled) document.body.dataset.sisStudioTheme = theme();
@@ -58,6 +61,7 @@
     observer?.disconnect();
     shellObserver?.disconnect();
     features.clear();
+    companion?.clear();
     controls?.destroy();
     unsubscribe?.();
     media.removeEventListener('change', systemChanged);
