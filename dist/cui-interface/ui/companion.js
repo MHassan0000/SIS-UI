@@ -2,6 +2,14 @@
   'use strict';
   const app = globalThis.__sisStudioUI, calc = app.academic, tt = app.timetable;
   const labels = { academics: 'GPA & CGPA', attendance: 'Attendance', marks: 'Marks planner', rooms: 'Room finder', timetable: 'My timetable', history: 'Academic history' };
+  const toolCopy = {
+    academics: ['Academic planner', 'Explore grades. Set a target. See what it takes.'],
+    attendance: ['Every class counts', 'Understand your attendance before planning your next week.'],
+    marks: ['Know what you need', 'Turn assessment weights into a clear, achievable target.'],
+    rooms: ['Find your place on campus', 'Check scheduled availability and make the most of a break.'],
+    timetable: ['Your week, in view', 'See what comes next and find time between classes.'],
+    history: ['See how far you have come', 'A clearer view of the results already published by SIS.'],
+  };
   const el = (tag, text, cls) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (cls) node.className = cls; return node; };
   const button = (label, action, cls = '') => { const b = el('button', label, cls); b.type = 'button'; b.addEventListener('click', action); return b; };
   const link = (text, href) => { const a = el('a', text); a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer'; return a; };
@@ -87,10 +95,10 @@
       function updatePlan() {
         const c = num(current.input), p = num(previous.input), f = num(future.input), n = num(next.input), g = num(target.input);
         const projected = calc.cumulative(c, p, n, f), required = calc.target(c, p, g, f);
-        plan.replaceChildren(); const metrics = el('div', undefined, 'metrics'); metrics.append(metric('Projected CGPA', fixed(projected)), metric('Required semester GPA', required ? required.already ? '0.00' : fixed(required.required) : '—')); plan.append(metrics);
+        plan.replaceChildren(); const metrics = el('div', undefined, 'metrics'); metrics.append(metric('Projected CGPA', fixed(projected)), metric('Required semester GPA', required ? required.already ? '0.00' : calc.minimumDisplay(required.required) : '—', 'Minimum rounded upward to 2 decimals')); plan.append(metrics);
         planStatus.textContent = required ? required.already ? 'Target remains mathematically reachable even with 0 semester GPA. This is not an academic standing decision.' : required.possible ? 'Target is mathematically reachable within the entered credits.' : 'Target is not achievable within these credits, even with a 4.00 semester GPA.' : 'Enter a baseline, upcoming credits and a target to calculate the requirement.';
         scenarios.replaceChildren();
-        if (required) scenarios.append(table(['Target CGPA', 'Required GPA', 'Within these credits'], [...new Set([Math.max(0, g - .1), g, Math.min(4, g + .1)].map(x => Number(x.toFixed(2))))].map(goal => { const r = calc.target(c, p, goal, f); return [goal.toFixed(2), fixed(Math.max(0, r.required)), r.possible ? 'Reachable' : 'Not reachable']; })));
+        if (required) scenarios.append(table(['Target CGPA', 'Required GPA', 'Within these credits'], [...new Set([Math.max(0, g - .1), g, Math.min(4, g + .1)].map(x => Number(x.toFixed(2))))].map(goal => { const r = calc.target(c, p, goal, f); return [goal.toFixed(2), calc.minimumDisplay(Math.max(0, r.required)), r.possible ? 'Reachable' : 'Not reachable']; })));
         if (projected !== null) scenarios.append(note(`(${c} × ${p} + ${n} × ${f}) ÷ (${p} + ${f}) = ${projected.toFixed(4)}. Displayed to two decimal places.`));
       }
       [current, previous, future, next, target].forEach(f => f.input.addEventListener('input', updatePlan));
@@ -132,7 +140,7 @@
         const value = calc.weighted(rows.map(r => ({ obtained: num(r.obtained.input), total: num(r.total.input), weight: num(r.weight.input) })));
         const result = value && calc.finalNeeded(value.earned, value.weight, num(goal.input));
         details.replaceChildren();
-        output.textContent = !value ? 'Enter valid marks and positive weights; completed weights cannot exceed 100%.' : !result ? 'Enter a target aggregate to calculate the remaining requirement.' : !result.possible ? 'This target is not reachable within the remaining weight.' : result.remaining === 0 ? 'All assessment weight is complete; the target has been reached.' : `Need ${fixed(result.needed)} of ${fixed(result.remaining)} remaining weighted marks (${fixed(result.percent)}% across remaining assessments).`;
+        output.textContent = !value ? 'Enter valid marks and positive weights; completed weights cannot exceed 100%.' : !result ? 'Enter a target aggregate to calculate the remaining requirement.' : !result.possible ? 'This target is not reachable within the remaining weight.' : result.remaining === 0 ? 'All assessment weight is complete; the target has been reached.' : `Need at least ${calc.minimumDisplay(result.needed)} of ${fixed(result.remaining)} remaining weighted marks (${calc.minimumDisplay(result.percent)}% across remaining assessments; minimums rounded upward).`;
         if (value) { const metrics = el('div', undefined, 'metrics'); metrics.append(metric('Weighted marks earned', fixed(value.earned), 'out of 100 course marks'), metric('Weight recorded', `${fixed(value.weight)}%`), metric('Maximum possible total', fixed(value.earned + 100 - value.weight))); details.append(metrics); }
       }
       function add() {
@@ -152,7 +160,7 @@
       panel.append(el('h3', 'Your published academic record'), note('SIS CGPA is shown as published. Semester GPA below is calculated from each row’s own grade points and credits, including F. Pending semesters are excluded; repeated courses are not merged.'));
       const history = model.history.semesters.filter(s => s.published);
       if (!history.length) { panel.append(el('p', 'Open Result Card to analyze the published semester history.', 'notice')); const a = el('a', 'Open Result Card'); a.href = '/ResultCard/Index'; panel.append(a); return; }
-      const metrics = el('div', undefined, 'metrics'); metrics.append(metric('Latest published CGPA', fixed(model.history.current)), metric('GPA credits in unique rows', model.history.credits === null ? 'Review repeats' : String(model.history.credits)));
+      const metrics = el('div', undefined, 'metrics'); metrics.append(metric('Latest published CGPA', fixed(model.history.current)), metric('Verified baseline credits', model.history.credits === null ? 'Confirm manually' : String(model.history.credits)));
       panel.append(metrics, table(['Semester', 'Derived semester GPA', 'Published CGPA', 'CGPA change'], history.map((s, i) => [s.semester, fixed(s.derived?.gpa ?? null), fixed(s.cgpa), i && s.cgpa !== null && history[i - 1].cgpa !== null ? `${s.cgpa - history[i - 1].cgpa >= 0 ? '+' : ''}${(s.cgpa - history[i - 1].cgpa).toFixed(2)}` : '—'])));
       const distribution = new Map(); history.flatMap(s => s.rows).filter(r => r.credits > 0).forEach(r => distribution.set(r.letter, (distribution.get(r.letter) || 0) + 1));
       panel.append(note('Grade distribution counts published credit-bearing attempts. It is not a count of unique courses passed.'), table(['Grade', 'Recorded attempts'], [...distribution]));
@@ -174,19 +182,23 @@
       const filters = el('div', undefined, 'fields'); [day,start,duration,block,room].forEach(f => filters.append(f.wrap));
       const output = el('p', undefined, 'notice'); output.setAttribute('role','status'); const list = el('div', undefined, 'grid room-grid');
       let busy = false, cancelled = false;
-      function group(name) { return block.input.value === 'labs' ? !/^[A-Z]-\d/.test(name) : name.startsWith(`${block.input.value}-`) || name.includes(`(${block.input.value}-`); }
+      const invalidate = () => { if(!busy){list.replaceChildren();output.textContent='Filters changed. Search again to check availability for this selection.';} };
+      function group(name) { return block.input.value === 'labs' ? !/^[A-Z]-\d/.test(name) : new RegExp(`(?:^|[ (])${block.input.value}-\\d`).test(name); }
       function fillRooms() { room.input.replaceChildren(); const option = el('option','All in selected group'); option.value=''; room.input.append(option); (directory || []).filter(group).forEach(n => { const o=el('option',n);o.value=n;room.input.append(o); }); }
       block.input.addEventListener('change',fillRooms);
+      [day,start,duration,block,room].forEach(f=>f.input.addEventListener('input',invalidate));
+      [day,start,duration,block,room].forEach(f=>f.input.addEventListener('change',invalidate));
       const search = button('Search official timetable', async () => {
         if (busy) return;
         const from=tt.minutes(start.input.value), length=Number(duration.input.value), selectedDay=day.input.value;
         if (from===null || from < 510 || from+length>1230) { output.textContent='Choose an interval within the published timetable hours, 08:30–20:30 PKT.'; return; }
         busy=true;cancelled=false;search.disabled=true;stop.hidden=false;list.replaceChildren();
+        [day,start,duration,block,room].forEach(f=>{f.input.disabled=true;});presets.querySelectorAll('button').forEach(b=>{b.disabled=true;});
         try {
           if (!directory) { output.textContent='Loading official room directory…'; directory=await tt.request('room'); fillRooms(); }
           const names = room.input.value ? [room.input.value] : directory.filter(group);
           if (!names.length) throw new Error('No rooms found for this group in the official directory.');
-          const selected=names.slice(0,30); let count=0, free=0, unknown=0;
+          const selected=names.slice(0,30); let count=0, free=0, unknown=0, consecutiveFailures=0;
           for (const name of selected) {
             if(cancelled || disposed || token!==generation) break;
             const card=el('div',undefined,'card');card.append(el('h4',name));
@@ -195,20 +207,22 @@
               if(cancelled || disposed || token!==generation) break;
               const result=tt.availability(schedule,selectedDay,from,from+length);
               if (!result) throw new Error('Outside verified timetable coverage.');
+              consecutiveFailures=0;
               if (result.free) { free++;card.append(el('p',`No scheduled class · free until ${tt.time(result.until)}`,'ok')); if(result.next) card.append(el('p',`Next: ${result.next.code} at ${tt.time(result.next.start)}`)); }
               else card.append(el('p',`Scheduled: ${result.conflicts.map(e=>`${e.code} ${tt.time(e.start)}–${tt.time(e.end)}`).join('; ')}`));
               card.append(el('small',freshness(schedule)),link('Verify schedule',schedule.url));
-            } catch(error) { unknown++;card.append(el('p','Availability unknown','warn'),el('small',error.message)); }
+            } catch(error) { unknown++;consecutiveFailures++;card.append(el('p','Availability unknown','warn'),el('small',error.message)); }
             if(token!==generation || disposed) break;
-            list.append(card);count++;output.textContent=`${count}/${selected.length} checked · ${free} without a scheduled class · ${unknown} unavailable. ${tt.time(from)}–${tt.time(from+length)} PKT.`;
+            list.append(card);count++;output.textContent=`${count}/${selected.length} checked · ${free} without a scheduled class · ${unknown} unavailable. ${selectedDay} ${tt.time(from)}–${tt.time(from+length)} PKT.`;
+            if(consecutiveFailures>=2){output.textContent+=' Stopped after repeated source failures. Unchecked rooms remain unknown; retry when the source is available.';break;}
           }
           if(token===generation && !disposed && (cancelled || names.length>30)) output.textContent += cancelled ? ' Search stopped; remaining rooms are unknown.' : ' First 30 rooms shown; choose a specific room to check others.';
         } catch(error) { if(token===generation) output.textContent=error.message; }
-        finally { busy=false;search.disabled=false;stop.hidden=true; }
+        finally { busy=false;search.disabled=false;stop.hidden=true;[day,start,duration,block,room].forEach(f=>{f.input.disabled=false;});presets.querySelectorAll('button').forEach(b=>{b.disabled=false;}); }
       },'primary');
       const stop=button('Stop search',()=>{cancelled=true;});stop.hidden=true;
       const presets=el('div',undefined,'actions');
-      presets.append(button('Now · 1 hour',()=>{const n=tt.now();day.input.value=n.day;start.input.value=tt.time(n.minutes);duration.input.value='60';}),button('Next hour',()=>{const n=tt.now();day.input.value=n.day;start.input.value=tt.time(Math.min(1380,(Math.floor(n.minutes/60)+1)*60));duration.input.value='60';}));
+      presets.append(button('Now · 1 hour',()=>{const n=tt.now();day.input.value=n.day;start.input.value=tt.time(n.minutes);duration.input.value='60';invalidate();}),button('Next hour',()=>{const n=tt.now();day.input.value=n.day;start.input.value=tt.time(Math.min(1380,(Math.floor(n.minutes/60)+1)*60));duration.input.value='60';invalidate();}));
       const actions=el('div',undefined,'actions');actions.append(search,stop);panel.append(presets,filters,actions,output,list); fillRooms();output.textContent='Choose a building and time, then search. Unknown or failed schedules are never marked free.';
       roomPreset=null;
     }
@@ -221,14 +235,15 @@
       const status=el('p',undefined,'notice');status.setAttribute('role','status');const view=el('div');
       const load=button('Load class timetable',async()=>{
         const who=chosen.input.value.trim();if(!who){status.textContent='Choose a class section first.';return;}
-        load.disabled=true;status.textContent='Loading official class directory…';
+        load.disabled=true;chosen.input.disabled=true;timetable=null;view.replaceChildren();status.textContent='Loading official class directory…';
         try{
           publicClasses ||= await tt.request('class');datalist.replaceChildren(...publicClasses.map(n=>{const o=el('option');o.value=n;return o;}));
           const name=publicClasses.find(n=>n.toLowerCase()===who.toLowerCase());if(!name)throw new Error('This section is not listed in the current public timetable. Choose a listed section.');
           const schedule=await tt.request('class',name);if(disposed || token!==generation)return;timetable=schedule;chosen.input.value=name;draw();
-        }catch(error){if(token===generation){status.textContent=error.message;view.replaceChildren();}}finally{load.disabled=false;}
+        }catch(error){if(token===generation){status.textContent=error.message;view.replaceChildren();}}finally{load.disabled=false;chosen.input.disabled=false;}
       },'primary');
       const fields=el('div',undefined,'fields');fields.append(chosen.wrap,day.wrap);panel.append(fields,datalist,load,status,view,link('Browse the official class directory',`${tt.source}?Kind=class`));
+      chosen.input.addEventListener('input',()=>{if(timetable && chosen.input.value.trim().toLowerCase()!==timetable.who.toLowerCase()){timetable=null;view.replaceChildren();status.textContent='Class section changed. Load its timetable to see the correct schedule.';}});
       function draw(){
         if(!timetable)return;view.replaceChildren();status.textContent=freshness(timetable);
         const entries=timetable.entries.filter(e=>e.day===day.input.value).sort((a,b)=>a.start-b.start),now=tt.now();
@@ -250,6 +265,9 @@
       if(!host || !labels[name])return;
       saveDraft();
       generation++;clearInterval(timer);active=name;workspace.hidden=false;panel.replaceChildren();
+      host.dataset.tool=name;
+      shadow.querySelector('.tool-title').textContent=toolCopy[name][0];
+      shadow.querySelector('.tool-description').textContent=toolCopy[name][1];
       shadow.querySelectorAll('[role=tab]').forEach(b=>{const selected=b.dataset.tab===name;b.setAttribute('aria-selected',String(selected));b.tabIndex=selected?0:-1;});
       panel.setAttribute('aria-labelledby',`studio-tab-${name}`);
       if (drafts.has(name)) panel.append(...drafts.get(name));
@@ -272,14 +290,14 @@
       model=app.companionData.read(root);disposed=false;
       host=el('section');host.id='sis-studio-companion';host.dataset.sisStudioOwned='companion';shadow=host.attachShadow({mode:'open'});
       const style=el('style',app.companionStyle);shadow.append(style);
-      const bar=el('div',undefined,'bar'),title=el('div');title.append(el('strong','Student Companion'),el('small','Plan your semester. Make the most of your day.'));
+      const bar=el('div',undefined,'bar'),title=el('div',undefined,'brand');title.append(el('span','SIS STUDIO / YOUR CAMPUS TOOLKIT','brand-kicker'),el('strong','Student Companion'),el('small','Less guesswork. More room for what matters.'));
       const actions=el('div',undefined,'actions');actions.append(button('GPA & CGPA',()=>open('academics'),'primary'),button('Find a room',()=>open('rooms')),button('Search · Ctrl K',commands));
       if(model.attendance.length)actions.prepend(button('Attendance what-if',()=>open('attendance'),'primary'));
       else if(/\/MarksSummary\b/i.test(location.pathname))actions.prepend(button('Plan course marks',()=>open('marks'),'primary'));
       else if(model.history.semesters.length)actions.prepend(button('Analyze results',()=>open('history')));
       else if(model.classNames.length)actions.prepend(button('My timetable',()=>open('timetable')));
       bar.append(title,actions);workspace=el('div',undefined,'workspace');workspace.hidden=true;
-      const heading=el('div',undefined,'heading'),intro=el('div');intro.append(el('h2','A little clarity for your semester'),el('small','Local calculations · Official timetable · Your choices'));
+      const heading=el('div',undefined,'heading'),intro=el('div');intro.append(el('span','STUDENT COMPANION','section-kicker'),el('h2','Academic planner','tool-title'),el('small','Explore grades. Set a target. See what it takes.','tool-description'));
       heading.append(intro,button('Close',()=>{saveDraft();generation++;clearInterval(timer);workspace.hidden=true;active='';actions.querySelector('button')?.focus();}));
       const tabs=el('div',undefined,'tabs');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Student companion tools');
       for(const [name,label] of Object.entries(labels)){const b=button(label,()=>open(name));b.dataset.tab=name;b.id=`studio-tab-${name}`;b.setAttribute('role','tab');b.setAttribute('aria-selected','false');b.setAttribute('aria-controls','studio-tool-panel');b.tabIndex=-1;tabs.append(b);}

@@ -50,5 +50,10 @@ globalThis.runCompanionTests = async assert => {
   click('GPA & CGPA');click('Clear companion data');
   assert(shadow.querySelectorAll('.row').length===1 && input('Current CGPA').value==='','Clear removes drafts and academic prefills');
   click('Read this SIS page again');assert(shadow.querySelectorAll('.row').length===2,'Explicit reread restores current-page prefills');
+  const resultFixture=document.createElement('div');
+  resultFixture.innerHTML='<div class="single_result_container"><div class="sis-result-meta"><table class="tbl_one"><tr><td>Semester: Spring 2026</td></tr></table></div><table class="sis-result-grid"><tr><td>Code</td><td>Title</td><td>Credit</td><td>Marks</td><td>Grade</td><td>Points</td></tr><tr><td>TST301</td><td>Synthetic</td><td>3</td><td>72</td><td>B</td><td>3</td></tr></table><div class="sis-result-summary"><table class="tbl_one"><tr><td>CGPA: 3.00</td></tr></table></div></div>';
+  assert(app.companionData.read(resultFixture).history.credits===3,'Historical credit baseline reconciles with published CGPA');
+  resultFixture.querySelector('.sis-result-summary td').textContent='CGPA: 3.50';
+  assert(app.companionData.read(resultFixture).history.credits===null,'Inconsistent cumulative history does not prefill misleading credits');
   const close=[...shadow.querySelectorAll('.heading button')].find(b=>b.textContent==='Close');close.click();
 };

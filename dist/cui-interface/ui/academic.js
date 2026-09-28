@@ -8,6 +8,8 @@
     ['D+', 54, 1.30], ['D', 50, 1], ['F', 0, 0],
   ].map(([label, minimum, points]) => Object.freeze({ label, minimum, points }));
   const valid = (n, min, max) => typeof n === 'number' && Number.isFinite(n) && n >= min && n <= max;
+  // A minimum requirement must never be rounded down into an insufficient score.
+  const minimumDisplay = n => Number.isFinite(n) ? (Math.ceil((n - 1e-10) * 100) / 100).toFixed(2) : '—';
   function grade(marks) {
     return valid(marks, 0, 100) ? grades.find(g => Math.round(marks) >= g.minimum) : null;
   }
@@ -44,7 +46,7 @@
     const remaining = 100 - completedWeight, needed = Math.max(0, goal - earned);
     return { remaining, needed, percent: remaining ? needed / remaining * 100 : null, possible: needed <= remaining + 1e-9 };
   }
-  app.academic = Object.freeze({ grades, grade, semester, cumulative, target, attendance, weighted, finalNeeded, valid,
+  app.academic = Object.freeze({ grades, grade, semester, cumulative, target, attendance, weighted, finalNeeded, valid, minimumDisplay,
     policyURL: 'https://ww2.comsats.edu.pk/qec/downloads/Notification4304.pdf',
     attendanceURL: 'https://ww2.comsats.edu.pk/studentaffairs/' });
 })();

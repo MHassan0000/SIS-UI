@@ -57,3 +57,21 @@ test('Pakistan day and clock are independent of browser time zone',()=>{
   assert.equal(value.day,'Mo');assert.equal(value.minutes,75);
   assert.equal(t.minutes('24:00'),null);assert.equal(t.minutes('08:60'),null);assert.equal(t.minutes('08:30'),510);assert.equal(t.time(1230),'20:30');
 });
+test('minimum displayed scores round up, without floating-point whole-cent overshoot',()=>{
+  for(const [n,expected] of [[3.991,'4.00'],[3.99,'3.99'],[4.00001,'4.01'],[74.201,'74.21'],[0,'0.00'],[3.3300000000000005,'3.33']])assert.equal(a.minimumDisplay(n),expected);
+});
+test('all grade boundaries reject the value just below the rounding threshold',()=>{
+  for(let i=0;i<a.grades.length-1;i++){
+    const boundary=a.grades[i].minimum-.5;
+    assert.equal(a.grade(boundary).label,a.grades[i].label);
+    assert.equal(a.grade(boundary-.0001).label,a.grades[i+1].label);
+  }
+});
+test('attendance recovery and miss allowance agree with exhaustive integer scenarios',()=>{
+  for(let total=1;total<=60;total++)for(let present=0;present<=total;present++){
+    const r=a.attendance(present,total,80);
+    assert.ok((present+r.recover)/(total+r.recover)>=.8-1e-12);
+    if(r.recover>0)assert.ok((present+r.recover-1)/(total+r.recover-1)<.8+1e-12);
+    if(present/total>=.8){assert.ok(present/(total+r.missable)>=.8-1e-12);assert.ok(present/(total+r.missable+1)<.8);}
+  }
+});

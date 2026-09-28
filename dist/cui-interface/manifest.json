@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SIS Studio",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Customize COMSATS Lahore SIS with refined layouts, light and dark themes, clearer tables, and a more useful student dashboard.",
   "minimum_chrome_version": "120",
   "permissions": [

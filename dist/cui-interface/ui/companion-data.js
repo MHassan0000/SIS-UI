@@ -25,11 +25,15 @@
     }
     const published = semesters.filter(s => s.published && s.cgpa !== null);
     const gradedRows = published.flatMap(s => s.rows).filter(c => c.credits > 0);
-    const codes = gradedRows.map(c => c.code);
+    const codes = gradedRows.map(c => c.code.toUpperCase().replace(/\s+/g, ''));
     const repeated = codes.length !== new Set(codes).size;
     // No repeat replacement, transferred credits, or non-credit pass grades are guessed.
     const complete = published.length > 0 && semesters.every(s => s.order !== null) && published.every(s => !!s.derived) && !repeated;
-    const completedCredits = complete ? gradedRows.reduce((n, c) => n + c.credits, 0) : null;
+    // Cross-check the proposed baseline against published CGPA. Missing semesters,
+    // transfers or special GPA exclusions must not silently prefill the wrong credits.
+    const aggregate = complete ? app.academic.semester(gradedRows) : null;
+    const reconciled = aggregate && Math.abs(aggregate.gpa - published.at(-1).cgpa) <= 0.011;
+    const completedCredits = reconciled ? aggregate.credits : null;
     const history = { semesters, current: published.at(-1)?.cgpa ?? null, credits: completedCredits, repeated };
     const attendance = [...root.querySelectorAll('.sis-att-card')].flatMap(card => {
       const entries = [...card.querySelectorAll('.sis-att-pie-legend li')];

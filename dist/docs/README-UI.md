@@ -48,7 +48,7 @@ node --test tests/ui.test.mjs tests/academic.test.mjs tests/worker.test.mjs
 Open `tests/browser.html` in Chrome for the synthetic DOM regression suite. Its form submission is prevented by a test listener; no test data is submitted. Tests use an in-memory Chrome storage adapter. They verify restoration, original element identity, handlers, dynamic changes, summaries, filtering, keyboard controls, and login exclusion. This suite is outside the extension package.
 
 See [the audit and validation record](UI-AUDIT.md) for live coverage and limitations.
-# Level 3 Student Companion — version 1.4.0
+# Level 3 Student Companion — version 1.4.1
 
 The loadable extension in `cui-interface` now includes GPA/CGPA scenarios and targets, attendance what-if tools, a weighted-marks planner, academic history, an official public timetable and room finder, and Ctrl/Cmd+K navigation. Open **Student Companion** at the top of an authenticated SIS page. Its visibility can be toggled in SIS Studio settings.
 
@@ -58,4 +58,16 @@ Scenario drafts stay in memory across companion tabs and clear on page navigatio
 
 Existing Level 1 backup behavior is unchanged. The new companion calculations do not upload academic data. Full findings, policy sources, limitations and validation: [LEVEL3-AUDIT.md](LEVEL3-AUDIT.md).
 
-Run `node --test tests/ui.test.mjs tests/academic.test.mjs tests/worker.test.mjs`; open `tests/browser.html` for the browser regression suite.
+The companion now has a distinct blue-and-gold banner and six tool palettes: indigo academics, green attendance, amber marks, cyan rooms, rose timetable and violet history. Light and dark surfaces adapt independently of the surrounding portal. Required minimum GPA/marks round upward; historical credit prefills require reconciliation against published CGPA; changed room filters clear stale results.
+
+This is a personal unpacked extension, not a Chrome Web Store release. Reload the installed extension and refresh SIS to activate 1.4.1.
+
+Verification completed: 19 Node tests, 63 browser regression assertions and 23 actual unpacked-extension end-to-end checks, including live official timetable retrieval. Run:
+
+```powershell
+node --test tests/ui.test.mjs tests/academic.test.mjs tests/worker.test.mjs
+node tests/extension-e2e.mjs
+node tests/extension-e2e.mjs --live-public
+```
+
+Open `tests/browser.html` for the browser regression suite. The end-to-end runner uses an installed Playwright Core and Chromium; set `STUDIO_PLAYWRIGHT` to its `index.mjs` and `STUDIO_CHROMIUM` to the browser executable if the local defaults differ. The default run mocks public timetable responses; `--live-public` needs internet access. Both use synthetic SIS pages, load the actual extension and block all other network destinations. Screenshots in `tests/output` contain synthetic data only.
