@@ -1,0 +1,71 @@
+@media screen {
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 0 0 18px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 19px 20px;
+    background: var(--sis-surface);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-md);
+    box-shadow: var(--sis-shadow);
+    min-width: 0;
+    min-height: 148px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-eyebrow {
+    font: 600 10px/1.5 var(--sis-font);
+    text-transform: uppercase;
+    letter-spacing: .085em;
+    color: var(--sis-text-muted);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat-value { font: 600 27px/1.15 var(--sis-font); letter-spacing: -.035em; color: var(--sis-text); font-variant-numeric: tabular-nums; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat-note { font: 11px/1.5 var(--sis-font); color: var(--sis-text-muted); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat-action { align-self: flex-start; padding: 0; border: 0; background: transparent; color: var(--sis-primary); font: 500 12px/1.5 var(--sis-font); text-decoration: underline; text-underline-offset: 3px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat-action:hover { color: var(--sis-primary-hover); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-quick-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 24px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-quick-actions > span { margin-right: 8px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-quick-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-sm);
+    padding: 6px 10px;
+    background: var(--sis-surface);
+    color: var(--sis-text);
+    font: 12px/1.5 var(--sis-font);
+    text-decoration: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-quick-actions a:hover { border-color: var(--sis-primary); color: var(--sis-primary); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-arrow { color: var(--sis-text-muted); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-course-tools { display: flex; align-items: end; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--sis-border); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search-label { display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 500; color: var(--sis-text-muted); margin: 0; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search-label { max-width: 100%; min-width: 0; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search { width: 300px; max-width: 100%; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search-count { padding-bottom: 10px; font-size: 11px; color: var(--sis-text-muted); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search-empty { padding: 20px; color: var(--sis-text-muted); font-size: 13px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search-empty[hidden],
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] [data-studio-filtered="true"] { display: none !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-dash-att [data-studio-session] { width: 76px !important; margin: 3px 3px; display: inline-block; vertical-align: top; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-dash-att [data-studio-session]::before { content: attr(data-studio-session); display: block; color: var(--sis-text-muted); font: 10px/1.5 var(--sis-font); margin-bottom: 3px; text-align: left; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-dash-att .progress { height: 21px; background: var(--sis-surface-secondary); border: 1px solid var(--sis-border); border-radius: 4px; box-shadow: none; overflow: hidden; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-dash-att .progress-bar { color: var(--sis-text); background: var(--sis-primary-soft); background-image: none; font: 600 11px/19px var(--sis-font); animation: none; min-width: 32px; box-shadow: none; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-attendance-meter { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--sis-border); color: var(--sis-text-muted); font-size: 12px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-attendance-meter progress { width: min(240px, 45%); height: 7px; border: 0; border-radius: 4px; overflow: hidden; accent-color: var(--sis-primary); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-attendance-meter progress::-webkit-progress-bar { background: var(--sis-surface-secondary); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-attendance-meter progress::-webkit-progress-value { background: var(--sis-primary); }
+  @media (max-width: 600px) {
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat { padding: 14px; }
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-stat-value { font-size: 23px; }
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .studio-search { width: 230px; }
+  }
+}
+@media print {
+  [data-sis-studio-owned] { display: none !important; }
+}

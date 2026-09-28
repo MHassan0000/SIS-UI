@@ -1,0 +1,365 @@
+/* !important is confined to properties already forced by PortalShell / legacy grids. */
+@media screen {
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) {
+    background: var(--sis-bg) !important;
+    color: var(--sis-text);
+    font: 14px/1.55 var(--sis-font);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .sis-portal-shell {
+    max-width: 1480px !important;
+    padding: 0 28px 78px !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .main_body .content_area {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 10px 0 !important;
+    margin-top: 10px !important;
+    border-radius: 0 !important;
+    min-width: 0;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header.sis-portal-header {
+    border-radius: 0 0 var(--sis-radius-md) var(--sis-radius-md);
+    margin-bottom: 10px !important;
+    box-shadow: var(--sis-shadow);
+    border: 1px solid var(--sis-border);
+    border-top: 0;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .sis-portal-topbar {
+    background: var(--header-bg) !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .sis-portal-topbar .inner_row {
+    padding: 14px 20px !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .sis-portal-logo img {
+    height: 43px !important;
+    max-height: 43px !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .sis-welcome {
+    font-family: var(--sis-font);
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  /* The native palette resumes when the enhancement is disabled. */
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .sis-theme-mini { display: none !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .logo_menu_row {
+    background: var(--sis-surface) !important;
+    border-radius: 0 0 var(--sis-radius-md) var(--sis-radius-md);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .logo_menu_row .inner_row {
+    padding: 10px 14px !important;
+    align-items: center;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .rounded_menu_boxes ul li a {
+    color: var(--sis-text-muted) !important;
+    border-radius: var(--sis-radius-sm) !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    padding: 8px 9px !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .rounded_menu_boxes ul li a:hover,
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header .rounded_menu_boxes ul li a.selected {
+    background: var(--sis-primary-soft) !important;
+    color: var(--sis-primary) !important;
+    border-color: transparent !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header a.sis-nav-ico::before {
+    background-color: var(--sis-icon-bg);
+    border-radius: 5px;
+    box-shadow: none;
+    width: 19px;
+    height: 19px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) header a.sis-nav-ico-studentcard::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Ccircle cx='8' cy='10' r='2'/%3E%3Cpath d='M5 16c0-3 6-3 6 0M14 9h3M14 13h3'/%3E%3C/svg%3E");
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) #divImageHolder.StudentPicture {
+    border-radius: 8px !important;
+    border-color: var(--sis-border) !important;
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 0 !important;
+    padding: 2px !important;
+    box-shadow: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .StudentPicture img { border-radius: 5px !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-sheet {
+    background: var(--sis-surface) !important;
+    color: var(--sis-text) !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-list a { color: var(--sis-text) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-list a.selected { background: var(--sis-primary-soft) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav:not(.is-open) { visibility: hidden; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-sheet { box-shadow: -8px 0 24px #0002; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-head { color: var(--sis-text); border-color: var(--sis-border); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-close { background: var(--sis-surface-secondary); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-close::before,
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-close::after { background: var(--sis-text); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-nav-toggle {
+    color: var(--sis-text) !important;
+    background: var(--sis-surface-secondary) !important;
+    border-color: var(--sis-border) !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .page_title_row {
+    background: var(--sis-surface-secondary) !important;
+    color: var(--sis-text) !important;
+    border-top: 1px solid var(--sis-border);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .page_title_container :is(h1,h2,h3,p,span,.teachername) { color: var(--sis-text) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .circuled_menu_boxes a { color: var(--sis-text-muted) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .circuled_menu_boxes a.selected,
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .circuled_menu_boxes li.selected > a {
+    background: var(--sis-primary-soft) !important;
+    color: var(--sis-primary) !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-hero,.sis-ann-hero,.sis-profile-hero,.sis-sos-hero,.sis-survey-hero,.sis-reg-hero,.sis-lr-hero,.sis-bc-hero,.aps-page-hero,.sis-result-titlebar) {
+    background: var(--sis-surface);
+    color: var(--sis-text);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-md);
+    box-shadow: none;
+    padding: 24px;
+    margin: 0 0 20px;
+    min-width: 0;
+    gap: 20px;
+    align-items: center;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-hero,.sis-ann-hero,.sis-profile-hero,.sis-sos-hero,.sis-survey-hero,.sis-reg-hero,.sis-lr-hero,.sis-bc-hero,.aps-page-hero,.sis-result-titlebar) :is(h1,h2,h3) {
+    font-family: var(--sis-font) !important;
+    font-weight: 650 !important;
+    color: var(--sis-text) !important;
+    font-size: clamp(22px, 2vw, 28px) !important;
+    line-height: 1.3 !important;
+    letter-spacing: -.035em;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-hero,.sis-ann-hero,.sis-profile-hero,.sis-sos-hero,.sis-survey-hero,.sis-reg-hero,.sis-lr-hero,.sis-bc-hero,.aps-page-hero,.sis-result-titlebar) p {
+    color: var(--sis-text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-kicker,.sis-ann-kicker,.sis-profile-kicker,.sis-sos-kicker,.sis-survey-kicker,.sis-reg-kicker,.sis-lr-kicker,.sis-result-kicker,.sis-bc-kicker,.aps-page-kicker) {
+    color: var(--sis-primary) !important;
+    font-family: var(--sis-font);
+    font-size: 10px !important;
+    font-weight: 650;
+    letter-spacing: .14em;
+    margin-bottom: 6px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-card,.sis-profile-card,.sis-sos-card,.sis-reg-card,.sis-att-card,.single_result_container) {
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-md);
+    background: var(--sis-surface);
+    box-shadow: var(--sis-shadow);
+    overflow: visible;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-card-head,.sis-profile-card-head,.sis-sos-card-head) {
+    background: var(--sis-surface);
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--sis-border);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-card-head,.sis-profile-card-head,.sis-sos-card-head) h2 {
+    color: var(--sis-text);
+    font-size: 16px;
+    font-weight: 600;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-card-head,.sis-profile-card-head,.sis-sos-card-head) p { color: var(--sis-text-muted); font-size: 12px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-count,.sis-lr-count,.sis-sos-count) {
+    color: var(--sis-primary);
+    background: var(--sis-primary-soft);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-sm);
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-empty-inline,.sis-ann-empty,.sis-marks-empty,.sis-sos-empty) {
+    background: var(--sis-surface);
+    color: var(--sis-text-muted);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-md);
+    padding: 24px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-empty-inline.is-warn {
+    background: var(--sis-warning-soft);
+    color: var(--sis-warning);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.table-responsive,.sis-dash-table-wrap,.sis-att-table-wrap,.sis-reg-table-wrap,.sis-profile-table-wrap,.sis-result .table_container) {
+    overflow-x: auto;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area table[data-studio-table] {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin: 0;
+    background: var(--sis-surface);
+    color: var(--sis-text);
+    font-size: 13px;
+    border-color: var(--sis-border);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area table[data-studio-table] > :is(thead,tbody,tfoot) > tr > :is(td,th) {
+    padding: var(--sis-cell-y) 16px !important;
+    color: var(--sis-text) !important;
+    background: transparent !important;
+    border: 0;
+    border-bottom: 1px solid var(--sis-border);
+    line-height: 1.5;
+    vertical-align: middle;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area table[data-studio-table] > thead > tr > th,
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area table[data-studio-table] > tbody > tr[data-studio-table-head] > td {
+    color: var(--sis-text-muted) !important;
+    background: var(--sis-surface-secondary) !important;
+    font-size: 10px;
+    font-weight: 650;
+    letter-spacing: .065em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 11px !important;
+    padding-bottom: 11px !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area table[data-studio-table] > tbody > tr:nth-child(even) { background: var(--sis-surface-secondary); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area table[data-studio-table] > tbody > tr:hover { background: var(--sis-primary-soft); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-credits,.sis-dash-att,.sis-result-grid td:nth-child(n+3)) { font-variant-numeric: tabular-nums; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-result-grid td:nth-child(n+3) { text-align: right; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-dash-course-no { font: 12px var(--mono); color: var(--sis-primary) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-dash-course-name { font-weight: 550; min-width: 210px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-dash-class { font-size: 12px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-dash-teacher { min-width: 140px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-att-status.is-present) { color: var(--sis-success); background: var(--sis-primary-soft); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-result-semester-head,.sis-reg-card-banner,.sis-att-hero) { background: var(--sis-surface-secondary); color: var(--sis-text); border-color: var(--sis-border); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-att-hero h2 { color: var(--sis-text); font: 600 18px/1.4 var(--sis-font); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-att-kicker { color: var(--sis-text-muted); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-att-pct { color: var(--sis-primary); background: var(--sis-primary-soft); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-result-identity > span {
+    background: var(--sis-surface-secondary);
+    color: var(--sis-text-muted);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-sm);
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area #PrintBtn,
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-bc-hero-actions .sis-bc-link {
+    background: var(--sis-surface-secondary);
+    color: var(--sis-text);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-sm);
+    box-shadow: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-att-pie-legend li:first-child span { color: var(--sis-success); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-att-pie-legend li:nth-child(2) span { color: var(--sis-danger); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-attendance .slice { animation: none !important; }
+  /* Keep the portal's green/red series meaning, using the theme's readable shades. */
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-attendance .slice span[style*="forestgreen"] { background-color: var(--sis-success) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-attendance .slice span[style*="crimson"] { background-color: var(--sis-danger) !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-result-meta,.sis-result-summary,.sis-result-meta td,.sis-result-summary td) { background: var(--sis-surface); color: var(--sis-text); border-color: var(--sis-border); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-result-grid td font,.sis-result-grid td span) { color: inherit !important; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(input:not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]),select,textarea) {
+    color: var(--sis-text);
+    background: var(--sis-surface);
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-sm);
+    padding: 9px 12px;
+    min-height: 38px;
+    max-width: 100%;
+    font: 13px/1.5 var(--sis-font);
+    box-shadow: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(input,textarea)::placeholder { color: var(--sis-text-muted); opacity: 1; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(input[type=checkbox],input[type=radio]) { accent-color: var(--sis-primary); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(input,select,textarea,button):disabled { opacity: .6; cursor: not-allowed; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .editor-field { padding: 7px 0 16px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .field-validation-error { color: var(--sis-danger); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.btn-primary,.btn-success,.aps-btn) {
+    background: var(--sis-primary);
+    color: var(--on-accent);
+    border: 1px solid var(--sis-primary);
+    border-radius: var(--sis-radius-sm);
+    font-weight: 600;
+    padding: 9px 16px;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .aps-btn-secondary { background: var(--sis-surface-secondary); color: var(--sis-text); border-color: var(--sis-border); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] :is(.content_area,.sis-portal-header) :is(a,button,input,select,textarea,[tabindex]):focus-visible {
+    outline: 2px solid var(--sis-primary) !important;
+    outline-offset: 3px;
+    box-shadow: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-portal-footer { color: var(--sis-text-muted); border-color: var(--sis-border); font-size: 11px; }
+  /* StudentCard adds a late inline !important gradient; override that one explicitly. */
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area .sis-bc-hero {
+    background: var(--sis-surface) !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-bc-hero-actions,.sis-sos-hero-actions,.aps-page-hero-actions) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-bc-link,.sis-bc-print,.sis-reg-print,.sis-sos-print,.sis-profile-btn,.aps-manual-link) {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    max-width: 100%;
+    padding: 8px 14px;
+    border: 1px solid var(--sis-border);
+    border-radius: var(--sis-radius-sm);
+    background: var(--sis-surface-secondary);
+    color: var(--sis-text) !important;
+    box-shadow: none;
+    font: 500 13px/1.5 var(--sis-font);
+    text-decoration: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-bc-link,.sis-bc-print,.sis-reg-print,.sis-sos-print,.sis-profile-btn,.aps-manual-link):hover {
+    background: var(--sis-primary-soft);
+    border-color: var(--sis-primary);
+    color: var(--sis-primary) !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-stage { padding: 4px 0 24px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-card {
+    background: var(--sis-surface);
+    border: 1px solid var(--sis-border);
+    border-radius: 12px;
+    box-shadow: var(--sis-shadow);
+    transition: none;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-card-top { padding: 18px; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--sis-border); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-badge {
+    background: #292c34;
+    color: #ededf0 !important;
+    border: 1px solid #454851;
+    border-radius: 5px;
+    font: 600 10px/1.5 var(--sis-font);
+    letter-spacing: .07em;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-card-body { padding: 18px; gap: 16px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-name { font-size: 18px; line-height: 1.4; overflow-wrap: anywhere; letter-spacing: -.015em; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-reg { overflow-wrap: anywhere; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] #sisStudentCardPage .sis-bc-detail { padding: 0 18px 18px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] #sisStudentCardPage .sis-bc-meta { gap: 10px 16px; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] #sisStudentCardPage .sis-bc-meta > div { min-width: 0; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-meta dd { overflow-wrap: anywhere; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-bc-card-foot { padding: 14px 18px; background: var(--sis-surface-secondary); flex-wrap: wrap; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-nav-toggle-bars::before,
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-nav-toggle-bars::after { background: var(--sis-text); }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-nav-toggle-bars::before { box-shadow: 0 5px 0 var(--sis-text); }
+  /* Stop decorative movement; retain native loading indicators and menu visibility. */
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] :is(.sis-portal-header a,.sis-bc-card,.sis-bc-print,.aps-category-card,.sis-dash-count,.sis-mobile-nav-sheet,.sis-mobile-nav-backdrop) {
+    transition: none !important;
+    animation: none !important;
+  }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .aps-category-card:hover { transform: none; }
+  html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-card-head,.sis-profile-card-head,.sis-sos-card-head,.sis-att-hero,.sis-result-semester-head) { border-radius: 9px 9px 0 0; }
+  @media (max-width: 800px) {
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .sis-portal-shell { padding: 0 12px 70px !important; }
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme]:not(.sis-login-page) .sis-portal-topbar .inner_row { padding: 12px !important; }
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .content_area :is(.sis-dash-hero,.sis-ann-hero,.sis-profile-hero,.sis-sos-hero,.sis-survey-hero,.sis-reg-hero,.sis-lr-hero,.sis-bc-hero,.aps-page-hero,.sis-result-titlebar) { padding: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-portal-header a,
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-mobile-nav-sheet,
+    html body.sis-portal-body.sis-studio-enabled[data-sis-studio-theme] .sis-dash-att .progress-bar { transition: none !important; animation: none !important; }
+  }
+}

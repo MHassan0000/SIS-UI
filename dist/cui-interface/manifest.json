@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SIS Studio",
   "version": "1.3.0",
-  "description": "SIS Studio: a personal project for customizing the COMSATS Lahore SIS interface. Interface customization is coming soon.",
+  "description": "Customize COMSATS Lahore SIS with refined layouts, light and dark themes, clearer tables, and a more useful student dashboard.",
   "minimum_chrome_version": "120",
   "permissions": [
     "storage",
@@ -17,6 +17,14 @@
     "service_worker": "background.js",
     "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://lhr-sis.comsats.edu.pk/*"],
+      "css": ["ui/styles/tokens.css", "ui/styles/portal.css", "ui/styles/features.css"],
+      "js": ["ui/adapter.js", "ui/parsers.js", "ui/preferences.js", "ui/controls.js", "ui/features.js", "ui/main.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",

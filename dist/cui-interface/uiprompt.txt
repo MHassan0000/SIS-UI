@@ -1,0 +1,896 @@
+You are a senior frontend engineer, Chrome Extension engineer, and product UI/UX designer.
+
+I already have an existing Chrome extension with working functionality. I now want you to EXTEND it — not rewrite it from scratch — by adding a complete UI enhancement layer specifically for the COMSATS Lahore Student Information System:
+
+https://lhr-sis.comsats.edu.pk
+
+The goal is to transform the existing SIS experience into a much more modern, polished, readable, useful student dashboard while preserving 100% of the portal's original functionality.
+
+IMPORTANT:
+- First inspect and understand my existing extension architecture.
+- Do not remove, break, or unnecessarily rewrite existing functionality.
+- Integrate this feature cleanly into the current extension.
+- Inspect the actual SIS DOM, routes/pages, tables, navigation and components before deciding selectors or implementation details.
+- Do not assume DOM selectors without verifying them.
+- The extension should progressively enhance the existing portal rather than attempting to replace the actual SIS backend/application.
+
+# PRIMARY GOAL
+
+Turn the old/dated SIS interface into a modern student-focused experience by providing:
+
+1. Complete visual reskin
+2. High-quality dark mode
+3. Improved typography and spacing
+4. Better navigation
+5. Cleaner tables/forms
+6. Better information hierarchy
+7. Useful student dashboard summaries
+8. Reorganization of existing information where it genuinely improves usability
+9. Quality-of-life features that make SIS easier and faster to use
+
+This should feel like:
+
+"COMSATS SIS, if it had received a modern professional redesign."
+
+NOT:
+
+"A completely different application placed on top of SIS."
+
+The original functionality and data remain authoritative.
+
+# FIRST: AUDIT BEFORE IMPLEMENTING
+
+Before changing code:
+
+1. Inspect the existing Chrome extension.
+2. Understand:
+   - manifest version
+   - content scripts
+   - background/service worker
+   - popup/side panel if present
+   - storage system
+   - current permissions
+   - existing injected styles/scripts
+   - existing functionality
+   - architecture/framework
+3. Inspect the SIS website while authenticated.
+4. Identify:
+   - dashboard/home
+   - sidebar/navbar
+   - student profile information
+   - attendance
+   - timetable
+   - courses
+   - grades/results
+   - transcript/CGPA if available
+   - fee information
+   - registration
+   - notices
+   - forms
+   - buttons
+   - tables
+   - modals
+   - alerts
+   - breadcrumbs
+   - pagination
+   - any other important student-facing areas
+5. Determine whether SIS behaves as:
+   - traditional multi-page application
+   - SPA
+   - partial AJAX application
+   - mixture of these
+6. Identify elements that can safely be visually changed versus elements whose structure should remain untouched.
+
+Then implement the enhancement.
+
+Do NOT stop after the audit. Continue through implementation.
+
+# DESIGN DIRECTION
+
+Create a professional university dashboard aesthetic.
+
+Style characteristics:
+
+- modern
+- minimal
+- clean
+- polished
+- highly readable
+- slightly premium
+- student-focused
+- restrained rather than flashy
+- excellent dark mode
+- excellent information density
+- consistent visual hierarchy
+
+Avoid:
+- excessive gradients
+- excessive glassmorphism
+- huge border radiuses everywhere
+- neon gamer aesthetics
+- unnecessary animations
+- excessive shadows
+- overly large UI elements
+- changing the portal so aggressively that it becomes unfamiliar
+
+Think modern products such as Linear, Notion, Vercel, modern admin dashboards and polished university portals — while retaining SIS's identity.
+
+# DESIGN SYSTEM
+
+Build the styling around reusable CSS variables/tokens rather than scattered hard-coded values.
+
+For example:
+
+--sis-bg
+--sis-surface
+--sis-surface-secondary
+--sis-border
+--sis-text
+--sis-text-muted
+--sis-primary
+--sis-success
+--sis-warning
+--sis-danger
+--sis-radius-sm
+--sis-radius-md
+--sis-shadow
+--sis-spacing-*
+
+Support both:
+
+LIGHT MODE
+and
+DARK MODE
+
+Dark mode must be intentionally designed, not simply:
+
+filter: invert()
+
+Use proper dark surfaces, borders, text contrast, table styling, inputs, dropdowns, modals, tooltips and hover states.
+
+# DARK MODE
+
+Add an extension-controlled theme system:
+
+- Light
+- Dark
+- System
+
+Persist preference using the extension's existing storage system or chrome.storage.
+
+Dark mode should apply consistently to:
+
+- page background
+- navigation
+- cards
+- tables
+- forms
+- dropdowns
+- buttons
+- links
+- alerts
+- modals
+- pagination
+- tooltips
+- profile areas
+- headings
+- secondary text
+- borders
+- hover states
+- selected states
+
+Do not leave random bright white components inside dark mode.
+
+Also ensure contrast remains accessible.
+
+# TYPOGRAPHY
+
+Improve the existing typography considerably.
+
+Use a modern UI font if the extension already has one available, otherwise use a safe, performant font strategy.
+
+Create hierarchy for:
+
+- page title
+- section heading
+- card title
+- body
+- secondary information
+- metadata
+- labels
+- table headings
+
+Do not make everything bold.
+
+Improve:
+- line height
+- font sizing
+- spacing
+- alignment
+
+# NAVIGATION
+
+Improve the existing SIS navigation without breaking its URLs or click behavior.
+
+Potential improvements:
+
+- cleaner sidebar
+- consistent icons where appropriate
+- better active-page indication
+- better grouping of related sections
+- improved spacing
+- clearer section names where safe
+- sticky navigation if appropriate
+- collapse behavior if useful
+- mobile/narrow-screen behavior if relevant
+
+If reorganizing navigation, keep all original destinations intact.
+
+Do not create fake routes.
+
+# DASHBOARD ENHANCEMENT
+
+The home/dashboard should become the most useful part of the enhancement.
+
+Where the existing SIS data allows it, create compact overview cards such as:
+
+- current semester
+- registered courses
+- CGPA
+- semester GPA
+- attendance overview
+- today's classes
+- upcoming classes
+- fee status
+- notices
+- academic warnings
+
+ONLY display information that actually exists in SIS.
+
+Do not fabricate data.
+
+The dashboard may reorganize existing information from the DOM into a better presentation.
+
+For example:
+
+Current Semester
+Fall 2026
+
+CGPA
+3.42
+
+Courses
+6 Registered
+
+Attendance
+87% Overall
+
+Today's Classes
+--------------------------------
+09:00  Machine Learning
+11:30  Operating Systems
+
+But these cards must be driven by actual SIS data.
+
+# ATTENDANCE
+
+If SIS exposes attendance information, make this section significantly easier to understand.
+
+Improve the existing attendance table visually.
+
+Where mathematically safe and supported by available data, optionally show:
+
+- attendance percentage
+- attended lectures
+- total lectures
+- absent lectures
+- progress bar
+- status indicator
+
+Use restrained semantic indicators for:
+
+safe / warning / critical
+
+Do not make assumptions about university attendance policy unless that policy is explicitly present in SIS.
+
+If a minimum attendance threshold is explicitly available, you may use it.
+
+# TIMETABLE
+
+If a timetable exists:
+
+Improve it into a clearer weekly schedule.
+
+Make it easy to identify:
+
+- course
+- time
+- room
+- teacher if available
+- current day
+
+Highlight today's classes subtly.
+
+Do not modify the underlying timetable data.
+
+# RESULTS / GRADES
+
+Improve readability of:
+
+- semester result tables
+- GPA
+- CGPA
+- course grades
+- credit hours
+
+Use clear hierarchy and spacing.
+
+Potential presentation:
+
+Course | Credits | Grade | Points
+
+Make summary values visually prominent without hiding the original information.
+
+# TABLES
+
+SIS likely contains many tables, so create a consistent table design.
+
+Improve:
+
+- header styling
+- row spacing
+- zebra differentiation if appropriate
+- hover state
+- borders
+- alignment
+- numeric alignment
+- empty states
+- responsive overflow
+- sticky table headers where useful
+
+IMPORTANT:
+
+Do NOT globally apply destructive CSS such as:
+
+table *
+div *
+span *
+input *
+
+without proper scope.
+
+Some old portals rely heavily on tables for layout, so distinguish between:
+
+DATA TABLES
+
+and
+
+LAYOUT TABLES
+
+before modifying them.
+
+# FORMS
+
+Improve:
+
+- inputs
+- selects
+- textareas
+- radio buttons
+- checkboxes
+- labels
+- validation messages
+- submit buttons
+- disabled states
+
+But preserve:
+
+- names
+- IDs
+- values
+- event listeners
+- form submission behavior
+- validation logic
+
+Never replace functional form elements just for appearance when CSS styling is sufficient.
+
+# INFORMATION REORGANIZATION
+
+You may reorganize information when it produces a meaningful usability improvement.
+
+Examples:
+
+Bad:
+
+Attendance buried several clicks deep.
+
+Better:
+
+Dashboard card:
+"Attendance: 86% — View Details"
+
+Bad:
+
+Today's timetable hidden inside the complete timetable.
+
+Better:
+
+Dashboard:
+"Today's Classes"
+
+Bad:
+
+CGPA hidden inside a large results table.
+
+Better:
+
+CGPA summary card + original results page.
+
+However:
+
+Do NOT duplicate huge amounts of information.
+
+Use summaries that link to the original detailed pages.
+
+# QUICK ACTIONS
+
+If useful based on the real SIS navigation, add a compact Quick Actions section.
+
+For example:
+
+- Attendance
+- Timetable
+- Results
+- Course Registration
+- Fee Details
+- Profile
+
+Use the portal's REAL URLs/actions.
+
+Do not hard-code routes until verified.
+
+# EXTENSION CONTROLS
+
+Add a small unobtrusive extension control accessible while using SIS.
+
+Possible options:
+
+Enhanced UI: ON/OFF
+
+Theme:
+- Light
+- Dark
+- System
+
+Optional:
+- Compact mode
+- Reduced motion
+
+The user must always be able to disable the redesign and instantly return to the original SIS presentation.
+
+This is extremely important.
+
+# ORIGINAL PORTAL FALLBACK
+
+Provide an easy way to temporarily disable enhancements.
+
+Example:
+
+Enhanced SIS
+[ ON ]
+
+When OFF:
+
+- remove extension-added classes
+- remove injected enhancement components
+- restore original presentation
+- do NOT require page reload if technically reasonable
+
+Never prevent students from accessing the original portal.
+
+# TECHNICAL ARCHITECTURE
+
+Do NOT dump all logic into one content script.
+
+Create a maintainable portal enhancement architecture.
+
+Adapt it to the existing repository, but conceptually something like:
+
+src/
+  sis/
+    selectors/
+    parsers/
+    observers/
+    routes/
+    enhancement/
+
+  features/
+    theme/
+    dashboard/
+    attendance/
+    timetable/
+    results/
+    navigation/
+
+  styles/
+    tokens.css
+    light.css
+    dark.css
+    components.css
+    tables.css
+    forms.css
+
+  components/
+    ThemeToggle
+    QuickActions
+    SummaryCard
+    EnhancementControls
+
+Do not create unnecessary abstractions if the extension is currently small.
+
+Keep it proportional to the project.
+
+# PORTAL ADAPTER
+
+Centralize SIS-specific selectors.
+
+Avoid scattering things like:
+
+document.querySelector("#some-random-id")
+
+through dozens of files.
+
+Prefer something conceptually like:
+
+sisSelectors.dashboard.studentName
+sisSelectors.dashboard.cgpa
+sisSelectors.attendance.table
+sisSelectors.navigation.sidebar
+
+This makes future SIS changes much easier to repair.
+
+# DOM PARSING
+
+When extracting portal information:
+
+1. Read existing DOM.
+2. Normalize it.
+3. Render enhancement UI from normalized data.
+
+Conceptually:
+
+SIS DOM
+    ↓
+Portal parser
+    ↓
+Normalized student data
+    ↓
+Enhanced UI
+
+Example normalized structure:
+
+{
+  student: {},
+  semester: {},
+  courses: [],
+  attendance: [],
+  timetable: [],
+  results: []
+}
+
+Only include fields actually obtainable from SIS.
+
+# DYNAMIC CONTENT
+
+SIS may dynamically replace portions of the DOM.
+
+Handle this safely.
+
+Use MutationObserver where needed, but:
+
+- do not observe the entire DOM with expensive callbacks unless necessary
+- debounce expensive operations
+- disconnect observers when unnecessary
+- prevent duplicate enhancement initialization
+
+Use a marker such as:
+
+data-sis-enhanced="true"
+
+to avoid enhancing the same component repeatedly.
+
+# CSS SAFETY
+
+Avoid destructive global rules.
+
+BAD:
+
+div {
+  background: #111 !important;
+}
+
+table {
+  display: block !important;
+}
+
+* {
+  color: white !important;
+}
+
+GOOD:
+
+body.sis-enhanced .verified-selector {
+   ...
+}
+
+Scope enhancement styles carefully.
+
+Use !important only when overriding legacy SIS styles genuinely requires it.
+
+Do not turn the stylesheet into thousands of uncontrolled !important declarations.
+
+# EXTENSION UI ISOLATION
+
+For extension-created floating controls/panels, consider Shadow DOM if it improves isolation from SIS styles.
+
+Portal-reskin CSS itself can target verified SIS components normally.
+
+# PERFORMANCE
+
+The extension must remain lightweight.
+
+Avoid:
+
+- large UI libraries unless already present
+- unnecessary runtime dependencies
+- continuous DOM polling
+- expensive MutationObservers
+- repeated layout measurements
+- unnecessary animations
+- excessive blur/backdrop-filter
+- large bundled assets
+
+Page interaction should remain as fast as the original portal.
+
+# SECURITY AND PRIVACY — VERY IMPORTANT
+
+This is a university portal containing private student information.
+
+The enhancement must be designed privacy-first.
+
+DO NOT:
+
+- collect passwords
+- read login passwords
+- send session cookies anywhere
+- upload student information
+- upload grades
+- upload attendance
+- upload student IDs
+- upload portal HTML
+- perform analytics on private academic information
+- transmit SIS data to an external backend
+- interfere with authentication
+- modify authentication cookies
+- bypass authorization
+- attempt to expose hidden information
+
+All UI enhancement and SIS parsing should happen locally in the browser.
+
+Use the minimum Chrome permissions necessary.
+
+Ideally limit host permissions to:
+
+https://lhr-sis.comsats.edu.pk/*
+
+Do not request <all_urls> merely for this feature.
+
+Do not intercept unrelated browsing traffic.
+
+# AUTHENTICATION
+
+The extension does NOT provide authentication.
+
+Students should:
+
+1. Navigate to the real SIS.
+2. Log in normally.
+3. SIS authenticates them.
+4. The extension enhances the authenticated UI.
+
+Do not duplicate or proxy the SIS login form.
+
+Do not store university credentials.
+
+# DATA INTEGRITY
+
+Never change actual SIS academic information.
+
+The extension is a presentation layer.
+
+If calculations such as percentages are added:
+
+- derive them only from reliable displayed values
+- isolate the calculation logic
+- handle missing values
+- handle malformed values
+- never replace authoritative SIS values with calculated values
+
+# ERROR HANDLING
+
+If a selector stops matching because SIS changes its website:
+
+DO NOT break the page.
+
+Instead:
+
+- gracefully skip that enhancement
+- preserve original UI
+- log a useful development warning
+- allow other enhancements to continue functioning
+
+The enhancement should fail component-by-component rather than taking down the entire page.
+
+# RESPONSIVENESS
+
+Although SIS is primarily desktop-oriented, improve responsiveness where reasonably possible.
+
+Support typical laptop resolutions particularly well:
+
+1366x768
+1440x900
+1920x1080
+
+Do not force mobile layouts if doing so would break legacy SIS functionality.
+
+# ACCESSIBILITY
+
+Improve:
+
+- contrast
+- focus indicators
+- clickable areas
+- form label clarity
+- keyboard navigation
+- semantic extension-created controls
+
+Respect:
+
+prefers-reduced-motion
+
+Do not communicate important states solely through color.
+
+# ANIMATIONS
+
+Keep animations extremely subtle.
+
+Allowed:
+
+- small hover transitions
+- sidebar transitions
+- theme transition
+- card appearance
+- dropdown transitions
+
+Avoid:
+
+- page entrance animations everywhere
+- scroll animations
+- parallax
+- large motion effects
+- distracting glowing effects
+
+This is a productivity/student portal.
+
+# IMPORTANT PRODUCT PRINCIPLE
+
+Do not redesign something merely because you can.
+
+For every structural change ask:
+
+"Does this make SIS faster or easier for a student to use?"
+
+If not, leave the original structure intact and simply improve its visual styling.
+
+# IMPLEMENTATION PRIORITY
+
+Prioritize in this order:
+
+PHASE 1
+- architecture integration
+- extension enable/disable
+- theme system
+- design tokens
+- global typography/background
+- navigation
+- cards
+- forms
+- buttons
+- tables
+
+PHASE 2
+- dashboard summaries
+- quick actions
+- attendance improvements
+- timetable improvements
+- results improvements
+
+PHASE 3
+- polish
+- responsive fixes
+- accessibility
+- edge cases
+- dynamic DOM handling
+- performance optimization
+
+# TESTING
+
+Test every important SIS section you can access.
+
+Verify:
+
+- login page remains functional
+- authenticated dashboard works
+- links still work
+- logout still works
+- forms still submit
+- selects still work
+- buttons remain clickable
+- tables retain all information
+- navigation functions normally
+- extension does not create duplicated components
+- dark mode covers all important surfaces
+- light mode still looks correct
+- enhancement can be disabled
+- refreshing retains user preferences
+- page transitions retain enhancements
+- no obvious console errors
+- no significant layout shifts
+- no horizontal overflow introduced
+- no student data leaves the browser
+
+# FINAL POLISH
+
+After implementation, perform a complete visual audit.
+
+Look for:
+
+- inconsistent border radius
+- mismatched spacing
+- bad text contrast
+- white elements in dark mode
+- broken table rows
+- legacy colors bleeding through
+- misaligned icons
+- inconsistent buttons
+- cramped forms
+- horizontal overflow
+- duplicated borders
+- excessively large headings
+- inconsistent hover states
+- broken responsive areas
+- extension UI conflicting with SIS CSS
+
+Fix these issues instead of stopping at "functionally complete."
+
+# FINAL RESULT
+
+The end result should make a COMSATS Lahore student immediately feel:
+
+"This is still my SIS portal, but it looks and works dramatically better."
+
+The extension should enhance the existing experience rather than fighting against it.
+
+Most importantly:
+
+PRESERVE EXISTING EXTENSION FUNCTIONALITY.
+PRESERVE SIS FUNCTIONALITY.
+DO NOT TOUCH AUTHENTICATION/CREDENTIALS.
+KEEP STUDENT DATA LOCAL.
+USE VERIFIED DOM SELECTORS.
+IMPLEMENT GRACEFUL FALLBACKS.
+MAKE THE UI ACTUALLY MORE USEFUL, NOT JUST PRETTIER.
+
+Begin by auditing the repository and current SIS DOM, then implement the feature completely and test it across the available SIS sections.
+You have access to chrome devtools mcp as well so use them if you would like and i would login you manually by solving the captchas . Please make something good and do not change the extension description (for chrome ) or icons or anything because i have set them up already . 
+Make sure everything integrates and works smoothly and seemlessly.

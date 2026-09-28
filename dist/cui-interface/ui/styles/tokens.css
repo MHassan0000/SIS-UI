@@ -1,0 +1,80 @@
+/* Screen-only tokens leave SIS's official print documents unchanged. */
+@media screen {
+  body.sis-studio-enabled {
+    --sis-bg: #f5f6f8;
+    --sis-surface: #ffffff;
+    --sis-surface-secondary: #f8f9fb;
+    --sis-border: #dfe3e9;
+    --sis-text: #23262e;
+    --sis-text-muted: #606674;
+    --sis-primary: #365bbb;
+    --sis-primary-hover: #274695;
+    --sis-primary-soft: #edf1fc;
+    --sis-icon-bg: #59657c;
+    --sis-success: #16754d;
+    --sis-warning: #8c5e08;
+    --sis-warning-soft: #fff5db;
+    --sis-danger: #b83740;
+    --sis-danger-soft: #fff0f1;
+    --sis-radius-sm: 6px;
+    --sis-radius-md: 10px;
+    --sis-shadow: 0 1px 2px #1b243308;
+    --sis-spacing-1: 4px;
+    --sis-spacing-2: 8px;
+    --sis-spacing-3: 12px;
+    --sis-spacing-4: 16px;
+    --sis-spacing-6: 24px;
+    --sis-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    --sis-cell-y: 14px;
+    color-scheme: light;
+    /* Bridge the portal's verified design tokens. No native theme preference is changed. */
+    --bg: var(--sis-bg);
+    --paper: var(--sis-surface);
+    --paper-2: var(--sis-surface-secondary);
+    --ink: var(--sis-text);
+    --ink-2: var(--sis-text-muted);
+    --ink-3: var(--sis-text-muted);
+    --line: var(--sis-border);
+    --accent: var(--sis-primary);
+    --accent-hi: var(--sis-primary-hover);
+    --on-accent: #fff;
+    --header-bg: #1c2028;
+    --tint-1: var(--sis-primary-soft);
+    --tint-2: var(--sis-surface-secondary);
+    --warn: var(--sis-warning);
+    --warn-soft: var(--sis-warning-soft);
+    --danger: var(--sis-danger);
+    --sans: var(--sis-font);
+    --display: var(--sis-font);
+    --display-style: normal;
+    --display-weight: 650;
+    --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+    --r-sm: var(--sis-radius-sm);
+    --r-md: var(--sis-radius-md);
+    --r-lg: 12px;
+    --shadow-sm: var(--sis-shadow);
+    --shadow-lg: var(--sis-shadow);
+  }
+  body.sis-studio-enabled[data-sis-studio-theme="dark"] {
+    --sis-bg: #0b0b0d;
+    --sis-surface: #141416;
+    --sis-surface-secondary: #1b1b1e;
+    --sis-border: #303036;
+    --sis-text: #ededf0;
+    --sis-text-muted: #aaaab4;
+    --sis-primary: #becdf9;
+    --sis-primary-hover: #e0e7ff;
+    --sis-primary-soft: #232735;
+    --sis-icon-bg: #444955;
+    --sis-success: #83dbaf;
+    --sis-warning: #f2c977;
+    --sis-warning-soft: #3b3321;
+    --sis-danger: #ffa0a7;
+    --sis-danger-soft: #3b252d;
+    --sis-shadow: 0 1px 2px #0003;
+    --on-accent: #171c2b;
+    --header-bg: #111113;
+    color-scheme: dark;
+  }
+  body.sis-studio-compact { --sis-cell-y: 8px; }
+}

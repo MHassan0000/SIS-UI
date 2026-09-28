@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>SIS Studio browser regression tests</title>
+<link rel="stylesheet" href="../cui-interface/ui/styles/tokens.css">
+<link rel="stylesheet" href="../cui-interface/ui/styles/portal.css">
+<link rel="stylesheet" href="../cui-interface/ui/styles/features.css">
+</head><body class="sis-portal-body">
+<div class="sis-portal-shell">
+<header class="sis-portal-header"><div class="rounded_menu_boxes"><a href="/Courses/Index" class="selected">Dashboard</a><a href="/ResultCard/Index">Result Card</a><a href="/Fees/Index">Fees</a><a href="/Login/Sign_out">Logout</a></div></header>
+<div class="main_body"><div class="content_area">
+<div class="sis-dash"><header class="sis-dash-hero"><div><h1>Registered courses</h1><p>Current session: Fall 2026 . Open a course for attendance, marks, and resources.</p></div></header>
+<section class="sis-dash-card"><div class="sis-dash-table-wrap"><table class="sis-dash-table"><thead><tr><th>Code</th><th>Name</th><th>Credits</th><th>Attendance</th></tr></thead><tbody>
+<tr class="is-course-row"><td class="sis-dash-course-no">TST101</td><td class="sis-dash-course-name">Synthetic Course Alpha</td><td class="sis-dash-credits">3</td><td class="sis-dash-att"><div id="bar_1-Class" class="lab_class_attendance"><div class="progress"><div class="progress-bar">80%</div></div></div><div id="bar_1-Lab" class="lab_class_attendance"><div class="progress"><div class="progress-bar">60%</div></div></div></td></tr>
+<tr class="is-course-row"><td class="sis-dash-course-no">TST102</td><td class="sis-dash-course-name">Synthetic Course Beta</td><td class="sis-dash-credits">4</td><td class="sis-dash-att"><div id="bar_2-Class" class="only_class_attendance"><div class="progress"><div class="progress-bar">100%</div></div></div></td></tr>
+</tbody></table></div></section></div>
+<form id="test-form" action="https://example.invalid/synthetic-test"><label for="test-select">Synthetic select</label><select id="test-select" name="test-select"><option value="a">A</option><option value="b">B</option></select><input name="test-field" value="unchanged"><button type="submit">Synthetic submit</button></form>
+<table class="layout-table"><tbody><tr><td>Layout stays intact</td></tr></tbody></table>
+<header class="sis-bc-hero"><div><h1>Synthetic student card</h1><p>Card layout regression fixture</p></div><div class="sis-bc-hero-actions"><a class="sis-bc-link" href="#">My profile</a><button class="sis-bc-print" type="button">Print</button></div></header>
+<!-- Reproduce native rules arriving AFTER the extension stylesheet. -->
+<style>.sis-bc-hero{background:linear-gradient(135deg,#0f4c81,#1a6bb5)!important;border-radius:0}.sis-bc-link{color:white!important}.sis-bc-print{background:rgba(255,255,255,.96);border-radius:999px}</style>
+</div></div></div>
+<pre id="test-output" aria-live="polite">Running…</pre>
+<script src="browser-mock.js"></script>
+<script src="../cui-interface/ui/adapter.js"></script>
+<script src="../cui-interface/ui/parsers.js"></script>
+<script src="../cui-interface/ui/preferences.js"></script>
+<script src="../cui-interface/ui/controls.js"></script>
+<script src="../cui-interface/ui/features.js"></script>
+<script src="../cui-interface/ui/main.js"></script>
+<script src="browser-tests.js"></script>
+</body></html>
